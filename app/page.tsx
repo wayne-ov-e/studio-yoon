@@ -110,38 +110,35 @@ export default function Home() {
         />
       </div>
 
-      {/* ── Nav — grid child at col 7 to end ── */}
+      {/* ── Nav — single wrapper spanning cols 7–10 ── */}
       <nav
         style={{
-          gridColumn: "7 / -1",
+          gridColumn: "7 / 10",
           gridRow: 1,
           alignSelf: "start",
-          paddingTop: 25,
+          marginTop: "2.5vh",
           zIndex: 20,
-          display: "grid",
-          gridAutoFlow: "column",
-          gridAutoColumns: "auto",
-          columnGap: "50px",
-          alignItems: "baseline",
+          display: "flex",
+          alignItems: "flex-end",
         }}
       >
         {/* "01." + "Case Studies" group: 2rem number col, 12px gap */}
-        <div style={{ display: "grid", gridTemplateColumns: "2rem auto", columnGap: "12px", alignItems: "baseline" }}>
-          <span style={{ ...mono, fontSize: "0.75rem", color: "#231f20" }}>01.</span>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "20px", marginRight: "50px", lineHeight: 1, flexShrink: 0 }}>
+          <span style={{ ...mono, fontSize: "12px", fontWeight: 700, color: "#231f20", lineHeight: 1, display: "inline-block", minWidth: 30 }}>01.</span>
           <span
-            style={{ ...serif, fontSize: "1rem", color: "#231f20", cursor: "default", userSelect: "none" }}
+            style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", cursor: "default", userSelect: "none", lineHeight: 1 }}
             onMouseEnter={() => { cancelHide(); setShowMenu(true); }}
             onMouseLeave={scheduleHide}
           >
             Case Studies
           </span>
         </div>
-        <a href="#" style={{ ...serif, fontSize: "1rem", color: "#231f20" }}>Research</a>
-        <a href="#" style={{ ...serif, fontSize: "1rem", color: "#231f20" }}>About</a>
+        <a href="#" style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", marginRight: "50px", lineHeight: 1 }}>Research</a>
+        <a href="#" style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", marginRight: "50px", lineHeight: 1 }}>About</a>
         <img
           src={yoonLogo}
           alt="YOON"
-          style={{ height: 22, width: 85, objectFit: "contain", display: "block", alignSelf: "center" }}
+          style={{ height: 22, width: 85, objectFit: "contain", display: "block" }}
         />
       </nav>
 
@@ -150,8 +147,9 @@ export default function Home() {
         style={{
           position: "absolute",
           left: col7,
-          top: 68,
+          top: "2.5vh",
           right: colGap,
+          paddingTop: "83px",
           zIndex: 10,
           ...fade(showMenu),
         }}
@@ -166,59 +164,70 @@ export default function Home() {
               // col 1 = colW (= main col 7 width) → num aligns with "01."
               // col 2 = 1fr          → title/desc start at main col 8 = "Case Studies"
               display: "grid",
-              gridTemplateColumns: "2rem 1fr",
-              columnGap: "12px",
-              marginBottom: "2rem",
+              gridTemplateColumns: "auto 1fr",
+              columnGap: "20px",
+              marginBottom: "12px",
               cursor: "default",
             }}
             onMouseEnter={() => setHoveredProject(i)}
             onMouseLeave={() => setHoveredProject(null)}
           >
-            <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "0.75rem", color: "#767574" }}>
+            <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "12px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease" }}>
               {p.num}
             </span>
-            <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "1rem", color: "#767574", lineHeight: 1.1 }}>
+            <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, transition: "color 0.2s ease" }}>
               {p.title}
             </span>
-            <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "1rem", color: "#767574", lineHeight: 1.1, paddingLeft: colGap, maxWidth: "18.9vw" }}>
+            <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "16px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, paddingLeft: colGap, maxWidth: "18.9vw", transition: "color 0.2s ease" }}>
               {p.desc}
             </p>
           </div>
         ))}
       </div>
 
-      {/* ── Image strip — col 1, 12% above bottom ── */}
+      {/* ── Image strip — grid cols 1–6, 12% above bottom ── */}
       <div
         style={{
           position: "absolute",
-          left: colGap,
-          bottom: "12%",
-          display: "grid",
-          gridAutoFlow: "column",
-          gridAutoColumns: "auto",
-          columnGap: "6px",
-          alignItems: "end",
+          gridColumn: "1 / 7",
+          gridRow: 1,
+          left: 0,
+          right: 0,
+          bottom: "12vh",
+          display: "flex",
+          gap: "24px",
+          alignItems: "center",
           ...fade(showMenu),
         }}
       >
         {stripImages.map((img, i) => {
-          const isActive = activeImages.includes(i);
+          const pi = Math.floor(i / 2);
+          const isFirstOfPair = i % 2 === 0;
+          const isActive = hoveredProject === pi;
+          const projectOpacity = anyProjectHover ? (isActive ? 1 : 0.08) : 0.1;
           return (
             <div
               key={i}
               style={{
-                width: img.w,
-                height: img.h,
-                overflow: "hidden",
-                opacity: anyProjectHover ? (isActive ? 1 : 0.08) : 0.1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                rowGap: "8px",
+                opacity: projectOpacity,
                 transition: "opacity 0.35s ease",
+                flex: 1,
               }}
             >
-              <img
-                src={img.src}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
+              <div style={{ width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
+                <img
+                  src={img.src}
+                  alt=""
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+              </div>
+              <span style={{ ...mono, fontSize: "12px", fontWeight: 700, color: "#231f20", lineHeight: 1, visibility: isFirstOfPair ? "visible" : "hidden" }}>
+                {projects[pi].num}
+              </span>
             </div>
           );
         })}
@@ -232,7 +241,8 @@ export default function Home() {
           bottom: "3%",
           maxWidth: "19.7vw",
           ...serif,
-          fontSize: "1rem",
+          fontSize: "16px",
+          fontWeight: 600,
           color: "#231f20",
           lineHeight: 1.1,
           ...fade(showMenu),
