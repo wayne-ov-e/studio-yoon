@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root {
+  /* 12-col grid matching Figma canvas: 1280px, 20px gutters */
+  /* col-w = (100vw - 11 × gutter) / 12 */
+  --gutter: 1.5625vw;
+  --col-w: calc((100vw - 11 * var(--gutter)) / 12);
+  /* col7 left edge = 6 × (col-w + gutter) = 50vw + gutter/2 */
+  --col7: calc(50vw + var(--gutter) / 2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 11px; /* laptop (≤1440px) */
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 16px; /* full desktop */
+  }
+}
+
+body {
+  background-color: #ececea;
+  color: #231f20;
+  font-family: var(--font-garamond, 'EB Garamond', Georgia, serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background-color: #231f20;
+  color: #ececea;
+}
