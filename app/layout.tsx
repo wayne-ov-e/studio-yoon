@@ -1,26 +1,36 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Space_Mono, Cormorant_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
+const ebGaramond = localFont({
+  src: [
+    { path: "../public/fonts/EBGaramond-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/EBGaramond-400-italic.woff2", weight: "400", style: "italic" },
+  ],
   variable: "--font-garamond",
   display: "swap",
 });
 
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const spaceMono = localFont({
+  src: [
+    { path: "../public/fonts/SpaceMono-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/SpaceMono-700-normal.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-mono",
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+const cormorant = localFont({
+  src: [
+    { path: "../public/fonts/CormorantGaramond-300-normal.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/CormorantGaramond-300-italic.woff2", weight: "300", style: "italic" },
+    { path: "../public/fonts/CormorantGaramond-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/CormorantGaramond-400-italic.woff2", weight: "400", style: "italic" },
+    { path: "../public/fonts/CormorantGaramond-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/CormorantGaramond-500-italic.woff2", weight: "500", style: "italic" },
+    { path: "../public/fonts/CormorantGaramond-600-normal.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/CormorantGaramond-600-italic.woff2", weight: "600", style: "italic" },
+  ],
   variable: "--font-cormorant",
   display: "swap",
 });
