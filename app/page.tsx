@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
 const yoonLogo = "https://www.figma.com/api/mcp/asset/34091dbb-493e-4272-a237-d781363cbee5";
@@ -50,7 +51,7 @@ const colW   = "calc(80.5vw / 12)";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
-const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant, 'Times New Roman', serif)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-times-now, 'Times New Roman', serif)" };
 const mono: React.CSSProperties  = { fontFamily: "var(--font-mono, monospace)" };
 
 const fade = (show: boolean): React.CSSProperties => ({
@@ -76,7 +77,7 @@ export default function Home() {
     hideTimer.current = setTimeout(() => {
       setShowMenu(false);
       setHoveredProject(null);
-    }, 120);
+    }, 250);
   }, []);
 
   const activeImages    = hoveredProject !== null ? projects[hoveredProject].images : [];
@@ -106,10 +107,12 @@ export default function Home() {
           ...fade(!showMenu),
         }}
       >
-        <img
+        <Image
           src={heroImg}
           alt=""
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+          fill
+          style={{ objectFit: "cover", objectPosition: "center" }}
+          priority
         />
       </div>
 
@@ -138,10 +141,11 @@ export default function Home() {
         </div>
         <a href="#" style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", marginRight: "50px", lineHeight: 1 }}>Research</a>
         <a href="#" style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", marginRight: "50px", lineHeight: 1 }}>About</a>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={yoonLogo}
           alt="YOON"
-          style={{ height: 22, width: 85, objectFit: "contain", display: "block" }}
+          style={{ height: 22, width: 85, objectFit: "contain", objectPosition: "left center", display: "block", flexShrink: 0 }}
         />
       </nav>
 
@@ -173,7 +177,6 @@ export default function Home() {
               cursor: "default",
             }}
             onMouseEnter={() => { cancelHide(); setHoveredProject(i); }}
-            onMouseLeave={scheduleHide}
           >
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "12px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease" }}>
               {p.num}
@@ -223,11 +226,12 @@ export default function Home() {
                 transform: "translateZ(0)",
               }}
             >
-              <div style={{ width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
-                <img
+              <div style={{ position: "relative", width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
+                <Image
                   src={img.src}
                   alt=""
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               </div>
               <span style={{ ...mono, fontSize: "12px", fontWeight: 700, color: "#231f20", lineHeight: 1, visibility: isFirstOfPair ? "visible" : "hidden" }}>

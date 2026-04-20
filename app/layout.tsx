@@ -2,36 +2,25 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const ebGaramond = localFont({
-  src: [
-    { path: "../public/fonts/EBGaramond-400-normal.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/EBGaramond-400-italic.woff2", weight: "400", style: "italic" },
-  ],
-  variable: "--font-garamond",
-  display: "swap",
-});
-
 const spaceMono = localFont({
   src: [
-    { path: "../public/fonts/SpaceMono-400-normal.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/SpaceMono-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/SpaceMono-Regular.ttf",    weight: "400", style: "normal" },
+    { path: "../public/fonts/SpaceMono-Italic.ttf",     weight: "400", style: "italic" },
+    { path: "../public/fonts/SpaceMono-Bold.ttf",       weight: "700", style: "normal" },
+    { path: "../public/fonts/SpaceMono-BoldItalic.ttf", weight: "700", style: "italic" },
   ],
   variable: "--font-mono",
   display: "swap",
 });
 
-const cormorant = localFont({
+const timesNow = localFont({
   src: [
-    { path: "../public/fonts/CormorantGaramond-300-normal.woff2", weight: "300", style: "normal" },
-    { path: "../public/fonts/CormorantGaramond-300-italic.woff2", weight: "300", style: "italic" },
-    { path: "../public/fonts/CormorantGaramond-400-normal.woff2", weight: "400", style: "normal" },
-    { path: "../public/fonts/CormorantGaramond-400-italic.woff2", weight: "400", style: "italic" },
-    { path: "../public/fonts/CormorantGaramond-500-normal.woff2", weight: "500", style: "normal" },
-    { path: "../public/fonts/CormorantGaramond-500-italic.woff2", weight: "500", style: "italic" },
-    { path: "../public/fonts/CormorantGaramond-600-normal.woff2", weight: "600", style: "normal" },
-    { path: "../public/fonts/CormorantGaramond-600-italic.woff2", weight: "600", style: "italic" },
+    { path: "../public/fonts/TimesNow-SemiLight.ttf",       weight: "300", style: "normal" },
+    { path: "../public/fonts/TimesNow-SemiLightItalic.ttf", weight: "300", style: "italic" },
+    { path: "../public/fonts/TimesNow-SemiBold.ttf",        weight: "600", style: "normal" },
+    { path: "../public/fonts/TimesNow-SemiBoldItalic.ttf",  weight: "600", style: "italic" },
   ],
-  variable: "--font-cormorant",
+  variable: "--font-times-now",
   display: "swap",
 });
 
@@ -45,7 +34,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${ebGaramond.variable} ${spaceMono.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${spaceMono.variable} ${timesNow.variable}`}>
       <body>{children}</body>
     </html>
   );
