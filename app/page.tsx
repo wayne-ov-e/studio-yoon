@@ -57,6 +57,9 @@ const fade = (show: boolean): React.CSSProperties => ({
   opacity: show ? 1 : 0,
   transition: "opacity 0.55s ease",
   pointerEvents: show ? "auto" : "none",
+  willChange: "opacity",
+  transform: "translateZ(0)",
+  WebkitTransform: "translateZ(0)",
 });
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -169,8 +172,8 @@ export default function Home() {
               marginBottom: "12px",
               cursor: "default",
             }}
-            onMouseEnter={() => setHoveredProject(i)}
-            onMouseLeave={() => setHoveredProject(null)}
+            onMouseEnter={() => { cancelHide(); setHoveredProject(i); }}
+            onMouseLeave={scheduleHide}
           >
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "12px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease" }}>
               {p.num}
@@ -216,6 +219,8 @@ export default function Home() {
                 opacity: projectOpacity,
                 transition: "opacity 0.35s ease",
                 flex: 1,
+                willChange: "opacity",
+                transform: "translateZ(0)",
               }}
             >
               <div style={{ width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
