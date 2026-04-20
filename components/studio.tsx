@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 const stats = [
   { num: "47+", label: "Projects" },
   { num: "8", label: "Years" },

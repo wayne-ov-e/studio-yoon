@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "www.figma.com" },
+      { protocol: "https", hostname: "figma.com" },
+    ],
+  },
 };
 
 export default nextConfig;

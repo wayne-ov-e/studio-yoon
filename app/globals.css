@@ -13,6 +13,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 html {
@@ -29,7 +32,7 @@ html {
 body {
   background-color: #ececea;
   color: #231f20;
-  font-family: var(--font-garamond, 'EB Garamond', Georgia, serif);
+  font-family: var(--font-times-now, 'Times New Roman', serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
