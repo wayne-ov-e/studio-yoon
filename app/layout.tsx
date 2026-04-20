@@ -35,6 +35,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${spaceMono.variable} ${timesNow.variable}`}>
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/bsv3osj.css" />
+      </head>
       <body>{children}</body>
     </html>
   );
