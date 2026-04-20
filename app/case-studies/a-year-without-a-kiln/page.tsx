@@ -5,53 +5,34 @@ import Image from "next/image";
 import Link from "next/link";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
-const yoonLogo = "https://www.figma.com/api/mcp/asset/34091dbb-493e-4272-a237-d781363cbee5";
-const heroImg  = "https://www.figma.com/api/mcp/asset/4065bbce-babb-49e3-9913-39d7283a51a3";
-const tableImg = "https://www.figma.com/api/mcp/asset/ac13bf18-d29d-42e1-a277-169c18dc1dc3";
-const lampImg  = "https://www.figma.com/api/mcp/asset/32e2f261-1f22-4d32-aaee-6dec6470a255";
-const roomImg  = "https://www.figma.com/api/mcp/asset/8104b6f9-1309-4b8d-ae09-30269290756a";
+const yoonLogo     = "https://www.figma.com/api/mcp/asset/0507d72c-de77-4cdf-b8a4-b9ee36f384e1";
+const furnitureImg = "https://www.figma.com/api/mcp/asset/6580e1bc-30b9-4c25-a791-64c248701e0a";
+const tableImg     = "https://www.figma.com/api/mcp/asset/7251893b-2a91-48d1-8741-452cc4385421";
 
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
   {
     num: "01.1",
     title: "A Year Without a Kiln",
     desc: "A non-ceramic translation of Simone Bodmer-Turner's work, this inherently personal solo show was presented in the spring of 2024.",
     href: "/case-studies/a-year-without-a-kiln",
-    images: [0, 1],
   },
   {
     num: "01.2",
     title: "A Summer Arrangement",
     desc: "An impressive collection of multidisciplinary artists, was on view at the LongHouse Reserve East Hampton, New York in the summer of 2023.",
     href: "#",
-    images: [2, 3],
   },
   {
     num: "01.3",
     title: "Take Part In",
     desc: "An unusual interaction with the seemingly rigid and fragile material that composed the entire show.",
     href: "#",
-    images: [4, 5],
   },
 ];
 
-const stripImages = [
-  { src: tableImg, w: 93,  h: 69  },
-  { src: lampImg,  w: 93,  h: 113 },
-  { src: roomImg,  w: 85,  h: 91  },
-  { src: tableImg, w: 93,  h: 69  },
-  { src: lampImg,  w: 93,  h: 113 },
-  { src: roomImg,  w: 85,  h: 91  },
-];
-
-// ─── Grid ────────────────────────────────────────────────────────────────────
-// 12 cols · 1.5vw left/right margin · 1.5vw column-gap
-// colW = (100vw − 2×1.5vw − 11×1.5vw) / 12 = 80.5vw / 12 ≈ 6.708vw
-// col7 = margin + 6×(colW + gap) = 1.5vw + 6×(80.5vw/12 + 1.5vw) = 50.75vw
-// col8 = col7 + colW + gap = 50.75vw + 6.708vw + 1.5vw = 58.958vw
+// ─── Grid (same as homepage) ──────────────────────────────────────────────────
 const colGap = "1.5vw";
-const colW   = "calc(80.5vw / 12)";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
@@ -63,12 +44,9 @@ const fade = (show: boolean): React.CSSProperties => ({
   transition: "opacity 0.55s ease",
   pointerEvents: show ? "auto" : "none",
   willChange: "opacity",
-  transform: "translateZ(0)",
-  WebkitTransform: "translateZ(0)",
 });
 
-// ─── Component ───────────────────────────────────────────────────────────────
-export default function Home() {
+export default function YearWithoutKiln() {
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -85,56 +63,23 @@ export default function Home() {
     }, 250);
   }, []);
 
-  const activeImages    = hoveredProject !== null ? projects[hoveredProject].images : [];
-  const anyProjectHover = hoveredProject !== null;
-
   return (
     <main
       style={{
-        position: "fixed",
-        inset: 0,
         background: "#ececea",
-        overflow: "hidden",
+        minHeight: "100vh",
         display: "grid",
         gridTemplateColumns: "repeat(12, 1fr)",
         columnGap: colGap,
         padding: `0 ${colGap}`,
         alignContent: "start",
+        position: "relative",
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
     >
 
-      {/* ── White overlay on Case Studies hover ── */}
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(255,255,255,0.75)",
-          zIndex: 6,
-          ...fade(showMenu),
-        }}
-      />
-
-      {/* ── Hero: absolute, behind everything ── */}
-      <div
-        style={{
-          position: "absolute",
-          top: "0.5vh", bottom: "0.5vh",
-          left: "5vw",  right: "5vw",
-          ...fade(!showMenu),
-        }}
-      >
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          style={{ objectFit: "cover", objectPosition: "center" }}
-          priority
-        />
-      </div>
-
-      {/* ── Nav — single wrapper spanning cols 7–10 ── */}
+      {/* ── Nav ── */}
       <nav
         style={{
           gridColumn: "7 / 10",
@@ -146,16 +91,13 @@ export default function Home() {
           alignItems: "flex-end",
         }}
       >
-        {/* "01." + "Case Studies" group: 2rem number col, 12px gap */}
         <div
           style={{ display: "flex", alignItems: "baseline", gap: "20px", marginRight: "50px", lineHeight: 1, flexShrink: 0, position: "relative", top: "4px" }}
           onMouseEnter={() => { cancelHide(); setShowMenu(true); setHoveredNav("case-studies"); }}
           onMouseLeave={() => { scheduleHide(); setHoveredNav(null); }}
         >
           <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, display: "inline-block", minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
-          <span
-            style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}
-          >
+          <span style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}>
             Case Studies
           </span>
         </div>
@@ -179,7 +121,54 @@ export default function Home() {
         </Link>
       </nav>
 
-      {/* ── Project list — absolute, anchored to col 7 ── */}
+      {/* ── White overlay on Case Studies hover ── */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(255,255,255,0.75)",
+          zIndex: 6,
+          ...fade(showMenu),
+        }}
+      />
+
+      {/* ── Permanent project header — same position as homepage dropdown ── */}
+      <div
+        style={{
+          position: "absolute",
+          left: col7,
+          top: "2.5vh",
+          right: colGap,
+          paddingTop: "83px",
+          zIndex: 5,
+          opacity: showMenu ? 0 : 1,
+          transition: "opacity 0.55s ease",
+          pointerEvents: showMenu ? "none" : "auto",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "auto 1fr",
+            columnGap: "20px",
+          }}
+        >
+          <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "end", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, position: "relative", left: "6px", top: "-2px" }}>
+            01.1
+          </span>
+          <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1 }}>
+            A Year Without a Kiln
+          </span>
+          <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw" }}>
+            A non-ceramic translation of Simone Bodmer-Turner&apos;s work, this inherently personal solo show was presented in the spring of 2024.
+          </p>
+          <p style={{ gridColumn: 2, gridRow: 3, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", textIndent: "-4vw", maxWidth: "25vw" }}>
+            Aliquam tincidunt molestie mauris, et euismod nulla dictum quis. Suspendisse mattis pharetra lacus. Sed venenatis eleifend arcu, in gravida elit tristique eget. Phasellus id justo vel elit vulputate dictum.
+          </p>
+        </div>
+      </div>
+
+      {/* ── Case Studies dropdown — same as homepage ── */}
       <div
         style={{
           position: "absolute",
@@ -197,9 +186,6 @@ export default function Home() {
           <div
             key={p.num}
             style={{
-              // Internal grid mirrors the main grid:
-              // col 1 = colW (= main col 7 width) → num aligns with "01."
-              // col 2 = 1fr          → title/desc start at main col 8 = "Case Studies"
               display: "grid",
               gridTemplateColumns: "auto 1fr",
               columnGap: "20px",
@@ -221,74 +207,45 @@ export default function Home() {
         ))}
       </div>
 
-      {/* ── Image strip — grid cols 1–6, 12% above bottom ── */}
+      {/* ── Large image — cols 2–7, below header ── */}
       <div
         style={{
-          position: "absolute",
-          gridColumn: "1 / 7",
-          gridRow: 1,
-          left: 0,
-          right: 0,
-          bottom: "12vh",
-          display: "flex",
-          gap: "24px",
-          alignItems: "center",
-          ...fade(showMenu),
+          gridColumn: "3 / 10",
+          gridRow: 2,
+          marginTop: "295px",
+          position: "relative",
+          aspectRatio: "646 / 479",
+          overflow: "hidden",
         }}
       >
-        {stripImages.map((img, i) => {
-          const pi = Math.floor(i / 2);
-          const isFirstOfPair = i % 2 === 0;
-          const isActive = hoveredProject === pi;
-          const projectOpacity = anyProjectHover ? (isActive ? 1 : 0.08) : 0.1;
-          return (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                rowGap: "8px",
-                opacity: projectOpacity,
-                transition: "opacity 0.35s ease",
-                flex: 1,
-                willChange: "opacity",
-                transform: "translateZ(0)",
-              }}
-            >
-              <div style={{ position: "relative", width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
-                <Image
-                  src={img.src}
-                  alt=""
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, visibility: isFirstOfPair ? "visible" : "hidden", position: "relative", left: "6px" }}>
-                {projects[pi].num}
-              </span>
-            </div>
-          );
-        })}
+        <Image
+          src={furnitureImg}
+          alt="A Year Without a Kiln"
+          fill
+          style={{ objectFit: "cover" }}
+          priority
+        />
       </div>
 
-      {/* ── Tagline — col 7, 3% above bottom ── */}
-      <p
+      {/* ── Second image — cols 4–7 ── */}
+      <div
         style={{
-          position: "absolute",
-          left: `calc(${col7} + 50px)`,
-          bottom: "3%",
-          maxWidth: "19.7vw",
-          ...serif,
-          fontSize: "12px",
-          fontWeight: 600,
-          color: "#231f20",
-          lineHeight: 1.1,
-          ...fade(showMenu),
+          gridColumn: "5 / 9",
+          gridRow: 3,
+          marginTop: "80px",
+          marginBottom: "10vh",
+          position: "relative",
+          aspectRatio: "382 / 464",
+          overflow: "hidden",
         }}
       >
-        An interior design studio passionate about transforming houses into homes through textural details.
-      </p>
+        <Image
+          src={tableImg}
+          alt="A Year Without a Kiln, detail"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
 
     </main>
   );
