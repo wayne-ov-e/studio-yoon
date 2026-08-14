@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
-const yoonLogo     = "https://www.figma.com/api/mcp/asset/0507d72c-de77-4cdf-b8a4-b9ee36f384e1";
-const furnitureImg = "https://www.figma.com/api/mcp/asset/6580e1bc-30b9-4c25-a791-64c248701e0a";
-const tableImg     = "https://www.figma.com/api/mcp/asset/7251893b-2a91-48d1-8741-452cc4385421";
+import yoonLogo from "@/public/images/yoon-logo.svg";
+import furnitureImg from "@/public/images/furniture-placeholder.svg";
+import tableImg from "@/public/images/case-study-table-placeholder.svg";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -114,7 +114,7 @@ export default function YearWithoutKiln() {
         <Link href="/" style={{ display: "block", flexShrink: 0, alignSelf: "flex-end", lineHeight: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={yoonLogo}
+            src={yoonLogo.src}
             alt="YOON"
             style={{ height: 17.6, width: 68, objectFit: "contain", objectPosition: "left bottom", display: "block" }}
           />

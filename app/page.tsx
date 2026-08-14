@@ -5,11 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
-const yoonLogo = "https://www.figma.com/api/mcp/asset/34091dbb-493e-4272-a237-d781363cbee5";
-const heroImg  = "https://www.figma.com/api/mcp/asset/4065bbce-babb-49e3-9913-39d7283a51a3";
-const tableImg = "https://www.figma.com/api/mcp/asset/ac13bf18-d29d-42e1-a277-169c18dc1dc3";
-const lampImg  = "https://www.figma.com/api/mcp/asset/32e2f261-1f22-4d32-aaee-6dec6470a255";
-const roomImg  = "https://www.figma.com/api/mcp/asset/8104b6f9-1309-4b8d-ae09-30269290756a";
+import yoonLogo from "@/public/images/yoon-logo.svg";
+import heroImg from "@/public/images/lamp.jpg";
+import tableImg from "@/public/images/table-placeholder.svg";
+import lampImg from "@/public/images/lamp.jpg";
+import roomImg from "@/public/images/room-placeholder.svg";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -172,7 +172,7 @@ export default function Home() {
         <Link href="/" style={{ display: "block", flexShrink: 0, alignSelf: "flex-end", lineHeight: 0 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={yoonLogo}
+            src={yoonLogo.src}
             alt="YOON"
             style={{ height: 17.6, width: 68, objectFit: "contain", objectPosition: "left bottom", display: "block" }}
           />
