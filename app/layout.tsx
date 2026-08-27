@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { EB_Garamond } from "next/font/google";
 import "./globals.css";
+
+const ebGaramond = EB_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-eb-garamond",
+  display: "swap",
+});
 
 const spaceMono = localFont({
   src: [
@@ -34,7 +43,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceMono.variable} ${timesNow.variable}`}>
+    <html lang="en" className={`${spaceMono.variable} ${timesNow.variable} ${ebGaramond.variable}`}>
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/bsv3osj.css" />
       </head>

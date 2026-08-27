@@ -7,24 +7,27 @@ import Link from "next/link";
 // ─── Assets ──────────────────────────────────────────────────────────────────
 import yoonLogo from "@/public/images/yoon-logo.svg";
 import heroImg from "@/public/images/lamp.jpg";
-import tableImg from "@/public/images/table-placeholder.svg";
 import lampImg from "@/public/images/lamp.jpg";
 import roomImg from "@/public/images/room-placeholder.svg";
+import houseHomeStrip1 from "@/public/images/a-year-making-a-house-home/detail-01.jpg";
+import houseHomeStrip2 from "@/public/images/a-year-making-a-house-home/detail-10.jpg";
+import serifStrip1 from "@/public/images/a-place-to-stay-serif/shelf-corner.jpg";
+import serifStrip2 from "@/public/images/a-place-to-stay-serif/fig-dieter-rams.jpg";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
   {
     num: "01.1",
-    title: "A Year Without a Kiln",
-    desc: "A non-ceramic translation of Simone Bodmer-Turner's work, this inherently personal solo show was presented in the spring of 2024.",
-    href: "/case-studies/a-year-without-a-kiln",
+    title: "A Year Making a House, Home",
+    desc: "A year-long renovation of a small townhouse into a home for two — and one dog named August.",
+    href: "/case-studies/a-year-making-a-house-home",
     images: [0, 1],
   },
   {
     num: "01.2",
-    title: "A Summer Arrangement",
-    desc: "An impressive collection of multidisciplinary artists, was on view at the LongHouse Reserve East Hampton, New York in the summer of 2023.",
-    href: "#",
+    title: "A Place to Stay — Serif",
+    desc: "A small coffee roasting space in Vancouver, designed around flexibility, quietness, and the idea of a space that can evolve over time.",
+    href: "/case-studies/a-place-to-stay-serif",
     images: [2, 3],
   },
   {
@@ -37,10 +40,10 @@ const projects = [
 ];
 
 const stripImages = [
-  { src: tableImg, w: 93,  h: 69  },
-  { src: lampImg,  w: 93,  h: 113 },
-  { src: roomImg,  w: 85,  h: 91  },
-  { src: tableImg, w: 93,  h: 69  },
+  { src: houseHomeStrip1, w: 93,  h: 131 },
+  { src: houseHomeStrip2, w: 93,  h: 110 },
+  { src: serifStrip1, w: 93,  h: 62  },
+  { src: serifStrip2, w: 85,  h: 86  },
   { src: lampImg,  w: 93,  h: 113 },
   { src: roomImg,  w: 85,  h: 91  },
 ];
