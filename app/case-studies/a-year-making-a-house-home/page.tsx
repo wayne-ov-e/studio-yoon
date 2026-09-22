@@ -20,6 +20,7 @@ import detail10 from "@/public/images/a-year-making-a-house-home/detail-10.jpg";
 import detail11 from "@/public/images/a-year-making-a-house-home/detail-11.jpg";
 import detail12 from "@/public/images/a-year-making-a-house-home/detail-12.jpg";
 import detail13 from "@/public/images/a-year-making-a-house-home/detail-13.jpg";
+import detail14 from "@/public/images/a-year-making-a-house-home/detail-14.jpg";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -83,6 +84,7 @@ const photos: { src: StaticImageData; alt: string; left: string; top: number; wi
   { src: detail07, alt: "Upstairs landing",                  left: "calc(8.33% + 71.33px)",  top: 1825, width: 137,  height: 205 },
   { src: detail06, alt: "Hallway detail",                    left: "calc(83.33% + 40.33px)", top: 1405, width: 123,  height: 182 },
   { src: detail10, alt: "The new upstairs bathroom",         left: "calc(25% + 25px)",       top: 1117, width: 322,  height: 384 },
+  { src: detail14, alt: "Setting the tiled step at the entrance", left: "calc(33.33% + 95.33px)", top: 2102, width: 732, height: 494 },
   { src: detail01, alt: "Cobblestone limestone entrance floor", left: "20px",                top: 2396, width: 142,  height: 200 },
   { src: detail02, alt: "Notebook and pencil on the counter", left: "calc(33.33% - 0.67px)", top: 2951, width: 248,  height: 323 },
   { src: detail13, alt: "The extended kitchen countertop",   left: "20px",                   top: 3343, width: 1016, height: 640 },
