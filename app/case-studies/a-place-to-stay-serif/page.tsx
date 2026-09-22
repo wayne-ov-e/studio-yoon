@@ -69,6 +69,11 @@ const fade = (show: boolean): React.CSSProperties => ({
 // the 1.5vw grid inset this element's own wrapper (unlike the header) sits in ─
 const textLeft = "calc(49.25vw + 44px)";
 
+// ─── Sidenote labels ("concept."/"inspiration."/"design.") — aligned to the
+// same real position as the header's "01.2" itself: col7 + its 6px relative
+// nudge, minus the same 1.5vw wrapper inset used above ─────────────────────
+const sideLabelLeft = "calc(49.25vw + 6px)";
+
 const paragraphs: { top: number; text: string }[] = [
   { top: 1165, text: "The concept for Serif started with my friend's enjoyment of camping. The idea of curating the space as needed, the flexibility to change and adapt, and keeping only what is necessary became some of the starting points for the design. I was drawn to the idea that a camping setup is never completely fixed — you bring what you need, arrange things depending on the moment, and make the space your own. I wanted to bring some of that same feeling into Serif, creating a space that could evolve with the way Serif team work and spend their time there." },
   { top: 1729, text: "I have always been drawn to the quietness in Agnes Martin's work in particular. There is very little in her paintings, but the simplicity never feels empty. The space between the lines, the repetition, and the subtle imperfections all leave room for you to pause and look a little longer. I think that idea stayed with me while designing Serif. Keeping the space to only what was necessary was not about making it empty, but about leaving room for the work, the people, and the everyday moments to happen." },
@@ -327,11 +332,13 @@ export default function APlaceToStaySerif() {
           paddingBottom: "10vh",
         }}
       >
-        {/* Project meta — left column */}
+        {/* Project meta — left column. Grid + alignItems:"baseline" (not two
+            absolutely-positioned spans) so the 8.5px label and 11px value
+            share a real text baseline instead of just their line-box tops ── */}
         {meta.map((m) => (
-          <div key={m.label} style={{ position: "absolute", left: 20, top: m.top, lineHeight: "normal" }}>
-            <span style={{ ...andale, fontSize: "8.5px", color: "#231f20", position: "absolute", left: 0, whiteSpace: "nowrap" }}>{m.label}</span>
-            <span style={{ ...garamond, fontSize: "11px", color: "#231f20", position: "absolute", left: 72, width: 242, whiteSpace: "nowrap" }}>{m.value}</span>
+          <div key={m.label} style={{ position: "absolute", left: 20, top: m.top, display: "grid", gridTemplateColumns: "72px 1fr", alignItems: "baseline", lineHeight: "normal" }}>
+            <span style={{ gridColumn: 1, ...andale, fontSize: "8.5px", color: "#231f20", whiteSpace: "nowrap" }}>{m.label}</span>
+            <span style={{ gridColumn: 2, ...garamond, fontSize: "11px", color: "#231f20", whiteSpace: "nowrap" }}>{m.value}</span>
           </div>
         ))}
 
@@ -362,10 +369,8 @@ export default function APlaceToStaySerif() {
             key={s.label}
             style={{
               position: "absolute",
-              left: "calc(41.67% + 129.67px)",
+              left: sideLabelLeft,
               top: s.top,
-              transform: "translateX(-100%)",
-              textAlign: "right",
               ...andale,
               fontSize: "8.5px",
               color: "#231f20",
