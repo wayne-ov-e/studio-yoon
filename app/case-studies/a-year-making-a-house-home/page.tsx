@@ -59,9 +59,10 @@ const fade = (show: boolean): React.CSSProperties => ({
   willChange: "opacity",
 });
 
-// ─── Body copy — right-hand column, same horizontal position as the nav (~col 7) ─
-const textLeft = "calc(50% + 52px)";
-const textWidth = 242;
+// ─── Body copy — aligned to the header paragraph's own text column: col7 +
+// the "01.1" label's rendered width (24px) + the grid's 20px column gap, minus
+// the 1.5vw grid inset this element's own wrapper (unlike the header) sits in ─
+const textLeft = "calc(49.25vw + 44px)";
 
 const paragraphs: { top: number; text: string }[] = [
   { top: 847, text: "As soon as we visited the place for the open house, we had a feeling it could be the one. We had already been to so many viewings and were trying to be quite critical about what we actually wanted in our new home. Built in 1987, the townhouse had a fairly simple, rectangular floor plan, with just enough room upstairs to add another bathroom. Having an extra bathroom was important to us, as we wanted to be able to host family and friends who might come to visit us or spend a few days in the city." },
@@ -269,7 +270,8 @@ export default function AYearMakingAHouseHome() {
               position: "absolute",
               left: textLeft,
               top: p.top,
-              width: textWidth,
+              maxWidth: "25vw",
+              paddingLeft: "4vw",
               ...serif,
               fontSize: "13px",
               fontWeight: 600,
@@ -287,6 +289,7 @@ export default function AYearMakingAHouseHome() {
             position: "absolute",
             left: textLeft,
             top: 7430,
+            paddingLeft: "4vw",
             ...andale,
             fontSize: "10px",
             color: "#231f20",
