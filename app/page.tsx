@@ -153,15 +153,17 @@ export default function Home() {
           alignItems: "flex-end",
         }}
       >
-        {/* "01." + "Case Studies" group: 2rem number col, 12px gap */}
+        {/* "01." + "Case Studies" group — same grid pattern (not flex) as the
+            dropdown rows below, so the "01." column aligns with "01.1" etc.
+            byte-for-byte regardless of engine-specific flex/grid rounding ── */}
         <div
-          style={{ display: "flex", alignItems: "baseline", gap: "20px", marginRight: "50px", lineHeight: 1, flexShrink: 0, position: "relative", top: "4px" }}
+          style={{ display: "grid", gridTemplateColumns: "auto auto", alignItems: "baseline", columnGap: "20px", marginRight: "50px", lineHeight: 1, flexShrink: 0, position: "relative", top: "4px" }}
           onMouseEnter={() => { cancelHide(); setShowMenu(true); setHoveredNav("case-studies"); }}
           onMouseLeave={() => { scheduleHide(); setHoveredNav(null); }}
         >
-          <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, display: "inline-block", minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
+          <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
           <span
-            style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}
+            style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}
           >
             Case Studies
           </span>
