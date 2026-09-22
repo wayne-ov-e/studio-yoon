@@ -70,16 +70,21 @@ const paragraphs: { top: number; text: string }[] = [
   { top: 1114, text: "We started drawing up plans for the new bathroom, which would take over the existing laundry closet. We also removed a few unnecessary pony walls and bulkheads to keep things simple and clean. More than anything, we wanted our home to feel like a place where we could slow down, relax, and recharge — somewhere quiet and comfortable away from everything outside." },
   { top: 2628, text: "In the entrance, we chose cobblestone limestone flooring that we hope will age and weather with us. We wanted something durable, but also something that would become more beautiful over time — a material that could feel timeless in our home. Functionally, it also worked well for us and August, especially when it came to cleaning her muddy paws after being outside." },
   { top: 3220, text: "In the kitchen, we extended the countertop all the way toward the adjacent window without adding any upper cabinets. This gave us more usable counter space while still leaving plenty of room for cooking and prep." },
-  { top: 4487, text: "For our master bedroom, we explored limewash paint across the walls and ceiling. We wanted to try a slightly darker room that would make us feel cozy and relaxed, almost like a little retreat from the rest of the house." },
-  { top: 4726, text: "The master ensuite has a walk-in shower finished in beautiful ceramic tiles designed by Norm Architects. We chose the vertically textured version for the walls, which adds a soft, subtle texture to the space. The built-in ledge continues the same material and gives us a practical spot for everyday things without adding too much visual clutter." },
-  { top: 4965, text: "The office was transformed with a long custom desktop that runs along the wall, giving us plenty of space to work while keeping the room simple and open. We also added a small daybed underneath the window for August — which quickly became her favourite spot in the house." },
+  { top: 4235, text: "For our master bedroom, we explored limewash paint across the walls and ceiling. We wanted to try a slightly darker room that would make us feel cozy and relaxed, almost like a little retreat from the rest of the house.\n\nThe master ensuite has a walk-in shower finished in beautiful ceramic tiles designed by Norm Architects. We chose the vertically textured version for the walls, which adds a soft, subtle texture to the space. The built-in ledge continues the same material and gives us a practical spot for everyday things without adding too much visual clutter.\n\nThe office was transformed with a long custom desktop that runs along the wall, giving us plenty of space to work while keeping the room simple and open. We also added a small daybed underneath the window for August — which quickly became her favourite spot in the house." },
   { top: 5551, text: "Looking back, the renovation was really about figuring out what we needed from our home and making small, thoughtful changes to support the way we live. We didn't want to make the house feel overly designed or perfect, but rather create a space that would grow with us and feel more comfortable over time. There are still things we would change and little projects we want to work on, but that's also part of what makes it feel like ours. After a year of living, renovating, and slowly settling in, the house has finally started to feel like home." },
   { top: 7446, text: "A home like this doesn't come together on its own. I'm really grateful to everyone who helped us along the way and brought the ideas from drawings into something we could actually live in. A special thank you to our contractor for his patience, care, and all the little things he helped us work through during the renovation. There were many decisions, adjustments, and unexpected moments along the way, and having someone we could trust made the process so much easier. Thank you to all our friends and family who was a big part of making this house feel like home." },
 ];
 
+// ─── Hero — the only image whose right edge must track the text column's own
+// right edge (both scale with vw), so it's sized with calc()/aspectRatio
+// instead of a fixed px box like the rest of the photos below ──────────────
+const heroLeft = 20;
+const heroTop = 119;
+const heroWidth = "calc(74.25vw + 24px)"; // mirrors textLeft + 25vw, minus heroLeft
+const heroAspectRatio = "1061 / 593";
+
 // ─── Photos — top offsets rebased so 0 sits just below the persistent header ──
 const photos: { src: StaticImageData; alt: string; left: string; top: number; width: number; height: number }[] = [
-  { src: heroImg,  alt: "Light through the kitchen window", left: "20px",                   top: 242,  width: 1061, height: 593 },
   { src: detail05, alt: "Entry hallway",                     left: "20px",                   top: 1825, width: 139,  height: 205 },
   { src: detail07, alt: "Upstairs landing",                  left: "calc(8.33% + 71.33px)",  top: 1825, width: 137,  height: 205 },
   { src: detail06, alt: "Hallway detail",                    left: "calc(83.33% + 40.33px)", top: 1405, width: 123,  height: 182 },
@@ -93,7 +98,7 @@ const photos: { src: StaticImageData; alt: string; left: string; top: number; wi
   { src: detail11, alt: "The office desk beneath the window", left: "calc(16.67% + 16.67px)", top: 5551, width: 437,  height: 653 },
   { src: detail08, alt: "August resting on her daybed",      left: "20px",                   top: 6572, width: 545,  height: 718 },
   { src: detail09, alt: "Evening light in the living room",  left: "calc(58.33% + 84.33px)", top: 6778, width: 205,  height: 306 },
-  { src: detail12, alt: "A quiet corner of the finished home", left: "calc(75% + 81px)",     top: 7426, width: 219,  height: 324 },
+  { src: detail12, alt: "A quiet corner of the finished home", left: "calc(75% + 117px)",    top: 7426, width: 219,  height: 324 },
 ];
 
 export default function AYearMakingAHouseHome() {
@@ -300,6 +305,26 @@ export default function AYearMakingAHouseHome() {
           Epilogue.
         </p>
 
+        <div
+          style={{
+            position: "absolute",
+            left: heroLeft,
+            top: heroTop,
+            width: heroWidth,
+            aspectRatio: heroAspectRatio,
+            overflow: "hidden",
+          }}
+        >
+          <Image
+            src={heroImg}
+            alt="Light through the kitchen window"
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="80vw"
+            priority
+          />
+        </div>
+
         {photos.map((ph, i) => (
           <div
             key={i}
@@ -318,7 +343,6 @@ export default function AYearMakingAHouseHome() {
               fill
               style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 70vw"
-              priority={i === 0}
             />
           </div>
         ))}
