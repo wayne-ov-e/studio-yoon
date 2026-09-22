@@ -89,12 +89,17 @@ const sectionLabels: { top: number; label: string }[] = [
   { top: 2091, label: "design." },
 ];
 
-// ─── Project meta — left column, opposite the body copy ──────────────────────
+// ─── Project meta — left column, opposite the body copy. Tops are relative
+// to the same top:"2.5vh" anchor the header title uses, plus its 83px
+// paddingTop folded in directly — padding doesn't push position:absolute
+// children (they anchor to the padding *edge*, unaffected by the padding
+// amount), unlike the header's title, which is a normal-flow grid item and
+// does get pushed by it. Row spacing kept the same as before: 14px, 15px, 15px ─
 const meta: { label: string; value: string; top: number }[] = [
-  { label: "location", value: "vancouver, bc",              top: 6 },
-  { label: "status",   value: "completed in Summer 2026",   top: 20 },
-  { label: "Team",     value: "milltown contracting",       top: 35 },
-  { label: "area",     value: "570 sqft",                   top: 50 },
+  { label: "location", value: "vancouver, bc",              top: 79 },
+  { label: "status",   value: "completed in Summer 2026",   top: 93 },
+  { label: "Team",     value: "milltown contracting",       top: 108 },
+  { label: "area",     value: "570 sqft",                   top: 123 },
 ];
 
 // ─── Figure captions ──────────────────────────────────────────────────────────
@@ -279,6 +284,21 @@ export default function APlaceToStaySerif() {
         </div>
       </div>
 
+      {/* ── Project meta — anchored with the same top:"2.5vh" + paddingTop
+          the header uses (not nested in the body wrapper below, which has
+          its own unrelated fixed-px marginTop), so "location" lines up with
+          the header's title row at any viewport height, not just one tested
+          size. Grid + alignItems:"baseline" per row so the 8.5px label and
+          11px value share a real text baseline. ── */}
+      <div style={{ position: "absolute", left: 20, top: "2.5vh", zIndex: 4 }}>
+        {meta.map((m) => (
+          <div key={m.label} style={{ position: "absolute", left: 0, top: m.top, display: "grid", gridTemplateColumns: "72px 1fr", alignItems: "baseline", lineHeight: "normal" }}>
+            <span style={{ gridColumn: 1, ...andale, fontSize: "8.5px", color: "#231f20", whiteSpace: "nowrap" }}>{m.label}</span>
+            <span style={{ gridColumn: 2, ...garamond, fontSize: "11px", color: "#231f20", whiteSpace: "nowrap" }}>{m.value}</span>
+          </div>
+        ))}
+      </div>
+
       {/* ── Case Studies dropdown — grid-placed at cols 7–12 (not
           left:col7/right:colGap, a hand-computed vw approximation of the
           grid's real column-7 line that drifts a few px from nav's actual
@@ -332,15 +352,6 @@ export default function APlaceToStaySerif() {
           paddingBottom: "10vh",
         }}
       >
-        {/* Project meta — left column. Grid + alignItems:"baseline" (not two
-            absolutely-positioned spans) so the 8.5px label and 11px value
-            share a real text baseline instead of just their line-box tops ── */}
-        {meta.map((m) => (
-          <div key={m.label} style={{ position: "absolute", left: 20, top: m.top, display: "grid", gridTemplateColumns: "72px 1fr", alignItems: "baseline", lineHeight: "normal" }}>
-            <span style={{ gridColumn: 1, ...andale, fontSize: "8.5px", color: "#231f20", whiteSpace: "nowrap" }}>{m.label}</span>
-            <span style={{ gridColumn: 2, ...garamond, fontSize: "11px", color: "#231f20", whiteSpace: "nowrap" }}>{m.value}</span>
-          </div>
-        ))}
 
         {paragraphs.map((p, i) => (
           <Reveal
