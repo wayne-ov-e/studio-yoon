@@ -22,6 +22,7 @@ import detail12 from "@/public/images/a-year-making-a-house-home/detail-12.jpg";
 import detail13 from "@/public/images/a-year-making-a-house-home/detail-13.jpg";
 import detail14 from "@/public/images/a-year-making-a-house-home/detail-14.jpg";
 import { Reveal, usePageEnter } from "@/components/reveal";
+import { useIsMobile } from "@/components/use-is-mobile";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -102,8 +103,45 @@ const photos: { src: StaticImageData; alt: string; left: string; top: number; wi
   { src: detail12, alt: "A quiet corner of the finished home", left: "calc(75% + 117px)",    top: 7426, width: 219,  height: 324 },
 ];
 
+// ─── Mobile — the desktop layout is absolute-positioned two-column (images
+// clustered left/center, text column on the right), which has no meaning on
+// a ~375px screen. Rebuilt as a single-column stack in the same reading
+// order as the desktop version, full-width images with their aspect ratio
+// preserved via CSS aspect-ratio instead of a fixed px box. ────────────────
+type MobileItem =
+  | { type: "image"; src: StaticImageData; alt: string; ratio: string }
+  | { type: "text"; text: string }
+  | { type: "epilogue" };
+
+const mobileContent: MobileItem[] = [
+  { type: "image", src: heroImg,  alt: "Light through the kitchen window", ratio: "1061/593" },
+  { type: "text", text: paragraphs[0].text },
+  { type: "text", text: paragraphs[1].text },
+  { type: "image", src: detail10, alt: "The new upstairs bathroom", ratio: "322/384" },
+  { type: "image", src: detail06, alt: "Hallway detail", ratio: "123/182" },
+  { type: "image", src: detail05, alt: "Entry hallway", ratio: "139/205" },
+  { type: "image", src: detail07, alt: "Upstairs landing", ratio: "137/205" },
+  { type: "image", src: detail14, alt: "Setting the tiled step at the entrance", ratio: "732/494" },
+  { type: "image", src: detail01, alt: "Cobblestone limestone entrance floor", ratio: "142/200" },
+  { type: "text", text: paragraphs[2].text },
+  { type: "image", src: detail02, alt: "Notebook and pencil on the counter", ratio: "248/323" },
+  { type: "text", text: paragraphs[3].text },
+  { type: "image", src: detail13, alt: "The extended kitchen countertop", ratio: "1016/640" },
+  { type: "text", text: paragraphs[4].text },
+  { type: "image", src: detail03, alt: "The limewashed master bedroom", ratio: "564/843" },
+  { type: "image", src: detail04, alt: "Textured ceramic tile in the ensuite shower", ratio: "152/226" },
+  { type: "image", src: detail11, alt: "The office desk beneath the window", ratio: "437/653" },
+  { type: "text", text: paragraphs[5].text },
+  { type: "image", src: detail08, alt: "August resting on her daybed", ratio: "545/718" },
+  { type: "image", src: detail09, alt: "Evening light in the living room", ratio: "205/306" },
+  { type: "image", src: detail12, alt: "A quiet corner of the finished home", ratio: "219/324" },
+  { type: "epilogue" },
+  { type: "text", text: paragraphs[6].text },
+];
+
 export default function AYearMakingAHouseHome() {
   const entered = usePageEnter();
+  const isMobile = useIsMobile();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -119,6 +157,92 @@ export default function AYearMakingAHouseHome() {
       setHoveredProject(null);
     }, 250);
   }, []);
+
+  if (isMobile) {
+    return (
+      <main style={{ position: "relative", minHeight: "100vh", background: "#ececea", opacity: entered ? 1 : 0, transition: "opacity 1s ease" }}>
+        {/* Nav bar */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0, left: 0, right: 0,
+            zIndex: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "20px 6vw",
+            background: showMenu ? "transparent" : "rgba(236,236,234,0.92)",
+          }}
+        >
+          <Link href="/" style={{ display: "block", lineHeight: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={yoonLogo.src} alt="YOON" style={{ height: 16, width: "auto", objectFit: "contain", display: "block" }} />
+          </Link>
+          <button
+            onClick={() => setShowMenu((v) => !v)}
+            aria-label={showMenu ? "Close menu" : "Open menu"}
+            style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#231f20", background: "none", border: "none", padding: "8px", cursor: "pointer" }}
+          >
+            {showMenu ? "Close" : "Menu"}
+          </button>
+        </div>
+
+        {/* Full-screen tap menu */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 15, background: "#f7f4ef", padding: "80px 6vw 40px", overflowY: "auto", ...fade(showMenu) }}>
+          <div style={{ marginBottom: "40px" }}>
+            <span style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#767574" }}>01.</span>
+            <span style={{ ...serif, fontStyle: "italic", fontSize: "18px", fontWeight: 600, color: "#231f20", marginLeft: "12px" }}>Case Studies</span>
+            <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "24px" }}>
+              {projects.map((p) => (
+                <Link key={p.num} href={p.href} onClick={() => setShowMenu(false)} style={{ textDecoration: "none", display: "block" }}>
+                  <div style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>{p.num}</div>
+                  <div style={{ ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: "#231f20", marginTop: "4px" }}>{p.title}</div>
+                  <p style={{ ...serif, fontSize: "13px", color: "#767574", lineHeight: 1.4, marginTop: "6px" }}>{p.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "18px", borderTop: "1px solid #ddd8cf", paddingTop: "24px" }}>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>Research</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>About</a>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div style={{ padding: "90px 6vw 8px" }}>
+          <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>01.1</span>
+          <div style={{ ...serif, fontStyle: "italic", fontSize: "20px", fontWeight: 600, color: "#231f20", marginTop: "6px" }}>
+            A Year Making a House, Home
+          </div>
+        </div>
+
+        {/* Content */}
+        <div style={{ padding: "24px 6vw 80px", display: "flex", flexDirection: "column", gap: "36px" }}>
+          {mobileContent.map((item, i) => {
+            if (item.type === "image") {
+              return (
+                <Reveal key={i} style={{ position: "relative", width: "100%", aspectRatio: item.ratio, overflow: "hidden" }}>
+                  <Image src={item.src} alt={item.alt} fill style={{ objectFit: "cover" }} sizes="100vw" priority={i === 0} />
+                </Reveal>
+              );
+            }
+            if (item.type === "epilogue") {
+              return (
+                <Reveal key={i} as="p" style={{ ...andale, fontSize: "11px", color: "#231f20" }}>
+                  Epilogue.
+                </Reveal>
+              );
+            }
+            return (
+              <Reveal key={i} as="p" style={{ ...serif, fontSize: "15px", fontWeight: 500, lineHeight: 1.6, color: "#231f20", whiteSpace: "pre-line" }}>
+                {item.text}
+              </Reveal>
+            );
+          })}
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main

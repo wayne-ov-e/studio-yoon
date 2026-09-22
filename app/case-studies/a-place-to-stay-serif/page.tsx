@@ -24,6 +24,7 @@ import filmstrip06 from "@/public/images/a-place-to-stay-serif/filmstrip-06.jpg"
 import floorPlan from "@/public/images/a-place-to-stay-serif/floor-plan.jpg";
 import cupLamps from "@/public/images/a-place-to-stay-serif/cup-lamps.jpg";
 import { Reveal, usePageEnter } from "@/components/reveal";
+import { useIsMobile } from "@/components/use-is-mobile";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -168,8 +169,68 @@ const maskedPhotos: MaskedPhoto[] = [
   },
 ];
 
+// ─── Mobile — the desktop layout is absolute-positioned two-column with
+// hand-placed masked/rotated crops, none of which means anything on a
+// ~375px screen. Rebuilt as a single-column stack in reading order. For the
+// two rotated photos, instead of reproducing the exact desktop crop-frame
+// math (which assumes a fixed px container), a percentage-based swap trick:
+// an inner box sized to (H/W)% × (W/H)% of the outer aspect-ratio box, so
+// after a -90° rotation it exactly covers the outer box at any width. ─────
+function RotatedCover({ src, alt, ratio }: { src: StaticImageData; alt: string; ratio: string }) {
+  const [w, h] = ratio.split("/").map(Number);
+  const innerWidthPct = (h / w) * 100;
+  const innerHeightPct = (w / h) * 100;
+  return (
+    <div style={{ position: "relative", width: "100%", aspectRatio: ratio, overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: "50%", left: "50%", width: `${innerWidthPct}%`, height: `${innerHeightPct}%`, transform: "translate(-50%, -50%) rotate(-90deg)" }}>
+        <Image src={src} alt={alt} fill style={{ objectFit: "cover" }} sizes="100vw" />
+      </div>
+    </div>
+  );
+}
+
+type MobileItem =
+  | { type: "label"; text: string }
+  | { type: "text"; text: string }
+  | { type: "image"; src: StaticImageData; alt: string; ratio: string; caption?: string; rotate?: true }
+  | { type: "filmstrip" }
+  | { type: "floorplan" };
+
+const mobileContent: MobileItem[] = [
+  { type: "image", src: heroCounter, alt: "Preparing coffee at the Serif counter", ratio: "1240/802", rotate: true },
+  { type: "label", text: "concept." },
+  { type: "text", text: paragraphs[0].text },
+  { type: "image", src: figCamping, alt: "Camping — the starting reference for Serif's concept", ratio: "197/148", caption: "camping" },
+  { type: "image", src: figDieterRams, alt: "Dieter Rams, a modular wall storage system", ratio: "202/203", caption: "Dieter Rams w. modular wall system" },
+  { type: "label", text: "inspiration." },
+  { type: "text", text: paragraphs[1].text },
+  { type: "image", src: fig03, alt: "Reference detail", ratio: "98/131" },
+  { type: "image", src: figAgnesMartin, alt: "Agnes Martin, Untitled 1973", ratio: "239/243", caption: "Agnes Martin, Untitled 1973." },
+  { type: "label", text: "design." },
+  { type: "text", text: paragraphs[2].text },
+  { type: "image", src: figRoasteryImagined, alt: "An early rendering imagining the Serif roastery", ratio: "343/202", caption: "Serif roastery imagined" },
+  { type: "image", src: shelfCorner, alt: "Corner of the modular shelving system", ratio: "1240/829" },
+  { type: "text", text: paragraphs[3].text },
+  { type: "image", src: collageCabinet, alt: "The modular cabinet system on casters", ratio: "642/406" },
+  { type: "filmstrip" },
+  { type: "image", src: detailSmall, alt: "Detail of the roasting room hardware", ratio: "140/140" },
+  { type: "floorplan" },
+  { type: "image", src: cupLamps, alt: "Guests seated past the entrance curtain", ratio: "980/560", rotate: true },
+  { type: "text", text: paragraphs[4].text },
+];
+
+const filmstripMobile = [
+  { src: filmstrip04, alt: "Process photo", opacity: 1 },
+  { src: filmstrip05, alt: "Process photo", opacity: 0.3 },
+  { src: filmstrip06, alt: "Process photo", opacity: 0.3 },
+  { src: filmstrip01, alt: "Process photo", opacity: 0.3 },
+  { src: filmstrip02, alt: "Process photo", opacity: 0.3 },
+  { src: filmstrip03, alt: "Process photo", opacity: 0.3 },
+];
+
 export default function APlaceToStaySerif() {
   const entered = usePageEnter();
+  const isMobile = useIsMobile();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -185,6 +246,136 @@ export default function APlaceToStaySerif() {
       setHoveredProject(null);
     }, 250);
   }, []);
+
+  if (isMobile) {
+    return (
+      <main style={{ position: "relative", minHeight: "100vh", background: "#ececea", opacity: entered ? 1 : 0, transition: "opacity 1s ease" }}>
+        {/* Nav bar */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0, left: 0, right: 0,
+            zIndex: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "20px 6vw",
+            background: showMenu ? "transparent" : "rgba(236,236,234,0.92)",
+          }}
+        >
+          <Link href="/" style={{ display: "block", lineHeight: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={yoonLogo.src} alt="YOON" style={{ height: 16, width: "auto", objectFit: "contain", display: "block" }} />
+          </Link>
+          <button
+            onClick={() => setShowMenu((v) => !v)}
+            aria-label={showMenu ? "Close menu" : "Open menu"}
+            style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#231f20", background: "none", border: "none", padding: "8px", cursor: "pointer" }}
+          >
+            {showMenu ? "Close" : "Menu"}
+          </button>
+        </div>
+
+        {/* Full-screen tap menu */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 15, background: "#f7f4ef", padding: "80px 6vw 40px", overflowY: "auto", ...fade(showMenu) }}>
+          <div style={{ marginBottom: "40px" }}>
+            <span style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#767574" }}>01.</span>
+            <span style={{ ...serif, fontStyle: "italic", fontSize: "18px", fontWeight: 600, color: "#231f20", marginLeft: "12px" }}>Case Studies</span>
+            <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "24px" }}>
+              {projects.map((p) => (
+                <Link key={p.num} href={p.href} onClick={() => setShowMenu(false)} style={{ textDecoration: "none", display: "block" }}>
+                  <div style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>{p.num}</div>
+                  <div style={{ ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: "#231f20", marginTop: "4px" }}>{p.title}</div>
+                  <p style={{ ...serif, fontSize: "13px", color: "#767574", lineHeight: 1.4, marginTop: "6px" }}>{p.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "18px", borderTop: "1px solid #ddd8cf", paddingTop: "24px" }}>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>Research</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>About</a>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div style={{ padding: "90px 6vw 4px" }}>
+          <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>01.2</span>
+          <div style={{ ...serif, fontStyle: "italic", fontSize: "20px", fontWeight: 600, color: "#231f20", marginTop: "6px" }}>
+            A Place to Stay — Serif
+          </div>
+        </div>
+
+        {/* Meta */}
+        <div style={{ padding: "12px 6vw 0", display: "flex", flexDirection: "column", gap: "3px" }}>
+          {meta.map((m) => (
+            <div key={m.label} style={{ display: "grid", gridTemplateColumns: "84px 1fr", alignItems: "baseline" }}>
+              <span style={{ ...andale, fontSize: "9px", color: "#767574", whiteSpace: "nowrap" }}>{m.label}</span>
+              <span style={{ ...garamond, fontSize: "12px", color: "#231f20" }}>{m.value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Dek */}
+        <p style={{ ...serif, fontSize: "15px", fontWeight: 500, lineHeight: 1.6, color: "#231f20", whiteSpace: "pre-line", padding: "20px 6vw 0" }}>
+          In summer 2025, one of my friends asked me if I would design a small coffee roasting space for him. He had just started roasting coffee of his own and was looking for a place to set up his own little roastery.
+          {"\n\n"}Since university, I had mostly been designing houses and spaces for people to live in, so designing a roasting space felt very new. But it didn&apos;t take long for me to get excited about the opportunity to help my friend - and soon it became my first commercial project.
+        </p>
+
+        {/* Content */}
+        <div style={{ padding: "32px 6vw 80px", display: "flex", flexDirection: "column", gap: "36px" }}>
+          {mobileContent.map((item, i) => {
+            if (item.type === "label") {
+              return (
+                <Reveal key={i} as="p" style={{ ...andale, fontSize: "10px", color: "#767574" }}>
+                  {item.text}
+                </Reveal>
+              );
+            }
+            if (item.type === "text") {
+              return (
+                <Reveal key={i} as="p" style={{ ...serif, fontSize: "15px", fontWeight: 500, lineHeight: 1.6, color: "#231f20", whiteSpace: "pre-line" }}>
+                  {item.text}
+                </Reveal>
+              );
+            }
+            if (item.type === "filmstrip") {
+              return (
+                <Reveal key={i} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                  {filmstripMobile.map((f, fi) => (
+                    <div key={fi} style={{ position: "relative", width: "100%", aspectRatio: "1", overflow: "hidden", opacity: f.opacity }}>
+                      <Image src={f.src} alt={f.alt} fill style={{ objectFit: "cover" }} sizes="33vw" />
+                    </div>
+                  ))}
+                </Reveal>
+              );
+            }
+            if (item.type === "floorplan") {
+              return (
+                <Reveal key={i} style={{ position: "relative", width: "100%", aspectRatio: "761/492", background: "#e6e3dd" }}>
+                  <Image src={floorPlan} alt="Floor plan of the Serif roastery" fill style={{ objectFit: "contain", mixBlendMode: "multiply" }} sizes="100vw" />
+                </Reveal>
+              );
+            }
+            // image
+            return (
+              <Reveal key={i} style={{ width: "100%" }}>
+                {item.rotate ? (
+                  <RotatedCover src={item.src} alt={item.alt} ratio={item.ratio} />
+                ) : (
+                  <div style={{ position: "relative", width: "100%", aspectRatio: item.ratio, overflow: "hidden" }}>
+                    <Image src={item.src} alt={item.alt} fill style={{ objectFit: "cover" }} sizes="100vw" priority={i === 0} />
+                  </div>
+                )}
+                {item.caption ? (
+                  <p style={{ ...andale, fontSize: "10px", color: "#767574", marginTop: "8px" }}>{item.caption}</p>
+                ) : null}
+              </Reveal>
+            );
+          })}
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main

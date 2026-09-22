@@ -14,6 +14,7 @@ import houseHomeStrip2 from "@/public/images/a-year-making-a-house-home/detail-1
 import serifStrip1 from "@/public/images/a-place-to-stay-serif/shelf-corner.jpg";
 import serifStrip2 from "@/public/images/a-place-to-stay-serif/fig-dieter-rams.jpg";
 import { usePageEnter } from "@/components/reveal";
+import { useIsMobile } from "@/components/use-is-mobile";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -55,7 +56,6 @@ const stripImages = [
 // col7 = margin + 6×(colW + gap) = 1.5vw + 6×(80.5vw/12 + 1.5vw) = 50.75vw
 // col8 = col7 + colW + gap = 50.75vw + 6.708vw + 1.5vw = 58.958vw
 const colGap = "1.5vw";
-const colW   = "calc(80.5vw / 12)";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
@@ -74,6 +74,7 @@ const fade = (show: boolean): React.CSSProperties => ({
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function Home() {
   const entered = usePageEnter();
+  const isMobile = useIsMobile();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -92,6 +93,110 @@ export default function Home() {
 
   const activeImages    = hoveredProject !== null ? projects[hoveredProject].images : [];
   const anyProjectHover = hoveredProject !== null;
+
+  // ─── Mobile: full-bleed hero + a tap-triggered full-screen menu, instead of
+  // the desktop's hover-driven mega-dropdown (cols 7–12 of a 12-col grid,
+  // which has no room to exist on a ~375px-wide screen) ─────────────────────
+  if (isMobile) {
+    return (
+      <main
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          background: "#ececea",
+          overflow: "hidden",
+          opacity: entered ? 1 : 0,
+          transition: "opacity 1s ease",
+        }}
+      >
+        {/* Hero */}
+        <div style={{ position: "absolute", top: "1.5vh", bottom: "1.5vh", left: "4vw", right: "4vw", ...fade(!showMenu) }}>
+          <Image src={heroImg} alt="" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
+        </div>
+
+        {/* Nav bar */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0, left: 0, right: 0,
+            zIndex: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "20px 5vw",
+          }}
+        >
+          <Link href="/" style={{ display: "block", lineHeight: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={yoonLogo.src} alt="YOON" style={{ height: 16, width: "auto", objectFit: "contain", display: "block" }} />
+          </Link>
+          <button
+            onClick={() => setShowMenu((v) => !v)}
+            aria-label={showMenu ? "Close menu" : "Open menu"}
+            style={{
+              ...mono,
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#231f20",
+              background: "none",
+              border: "none",
+              padding: "8px",
+              cursor: "pointer",
+            }}
+          >
+            {showMenu ? "Close" : "Menu"}
+          </button>
+        </div>
+
+        {/* Full-screen tap menu */}
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 15,
+            background: "#f7f4ef",
+            padding: "80px 6vw 40px",
+            overflowY: "auto",
+            ...fade(showMenu),
+          }}
+        >
+          <div style={{ marginBottom: "40px" }}>
+            <span style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#767574" }}>01.</span>
+            <span style={{ ...serif, fontStyle: "italic", fontSize: "18px", fontWeight: 600, color: "#231f20", marginLeft: "12px" }}>
+              Case Studies
+            </span>
+            <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "24px" }}>
+              {projects.map((p) => (
+                <Link
+                  key={p.num}
+                  href={p.href}
+                  onClick={() => setShowMenu(false)}
+                  style={{ textDecoration: "none", display: "block" }}
+                >
+                  <div style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>{p.num}</div>
+                  <div style={{ ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: "#231f20", marginTop: "4px" }}>
+                    {p.title}
+                  </div>
+                  <p style={{ ...serif, fontSize: "13px", color: "#767574", lineHeight: 1.4, marginTop: "6px" }}>
+                    {p.desc}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "18px", borderTop: "1px solid #ddd8cf", paddingTop: "24px" }}>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>Research</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>About</a>
+          </div>
+
+          <p style={{ ...serif, fontSize: "12px", fontWeight: 600, color: "#767574", lineHeight: 1.4, marginTop: "40px" }}>
+            An interior design studio passionate about transforming houses into homes through textural details.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main
