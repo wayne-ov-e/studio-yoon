@@ -50,7 +50,6 @@ const col7   = "50.75vw";
 // ─── Style tokens ─────────────────────────────────────────────────────────────
 const serif: React.CSSProperties    = { fontFamily: "var(--font-times-now, 'Times New Roman', serif)" };
 const mono: React.CSSProperties     = { fontFamily: '"logic-monospace", var(--font-mono, monospace)' };
-const garamond: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)" };
 const andale: React.CSSProperties   = { fontFamily: '"Andale Mono", AndaleMono, ui-monospace, monospace' };
 
 const fade = (show: boolean): React.CSSProperties => ({
@@ -65,7 +64,6 @@ const textLeft = "calc(50% + 52px)";
 const textWidth = 242;
 
 const paragraphs: { top: number; text: string }[] = [
-  { top: 13, text: "In early 2024, we bought a small townhouse. It was an upgrade from the apartment we had lived in since getting married. The townhouse had two floors, with two bedrooms and a bathroom upstairs, and a good-sized kitchen, living room, and small garden on the main floor — just enough space for the three of us: my husband, myself, and our dog, August." },
   { top: 847, text: "As soon as we visited the place for the open house, we had a feeling it could be the one. We had already been to so many viewings and were trying to be quite critical about what we actually wanted in our new home. Built in 1987, the townhouse had a fairly simple, rectangular floor plan, with just enough room upstairs to add another bathroom. Having an extra bathroom was important to us, as we wanted to be able to host family and friends who might come to visit us or spend a few days in the city." },
   { top: 1114, text: "We started drawing up plans for the new bathroom, which would take over the existing laundry closet. We also removed a few unnecessary pony walls and bulkheads to keep things simple and clean. More than anything, we wanted our home to feel like a place where we could slow down, relax, and recharge — somewhere quiet and comfortable away from everything outside." },
   { top: 2628, text: "In the entrance, we chose cobblestone limestone flooring that we hope will age and weather with us. We wanted something durable, but also something that would become more beautiful over time — a material that could feel timeless in our home. Functionally, it also worked well for us and August, especially when it came to cleaning her muddy paws after being outside." },
@@ -209,7 +207,7 @@ export default function AYearMakingAHouseHome() {
             A Year Making a House, Home
           </span>
           <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw" }}>
-            A year-long renovation of a small townhouse into a home for two — and one dog named August.
+            In early 2024, we bought a small townhouse. It was an upgrade from the apartment we had lived in since getting married. The townhouse had two floors, with two bedrooms and a bathroom upstairs, and a good-sized kitchen, living room, and small garden on the main floor — just enough space for the three of us: my husband, myself, and our dog, August.
           </p>
         </div>
       </div>
@@ -272,9 +270,10 @@ export default function AYearMakingAHouseHome() {
               left: textLeft,
               top: p.top,
               width: textWidth,
-              ...garamond,
-              fontSize: "11px",
-              lineHeight: 1.5,
+              ...serif,
+              fontSize: "13px",
+              fontWeight: 600,
+              lineHeight: 1.1,
               color: "#231f20",
               whiteSpace: "pre-line",
             }}
