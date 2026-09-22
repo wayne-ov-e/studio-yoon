@@ -125,7 +125,6 @@ const photos: { src: StaticImageData; alt: string; left: string; top: number; wi
   { src: filmstrip01,        alt: "Process photo",                                left: "calc(16.67% + 88.67px)",  top: 3526, width: 99,   height: 131, opacity: 0.3 },
   { src: filmstrip02,        alt: "Process photo",                                left: "calc(41.67% + 61.67px)",  top: 3526, width: 88,   height: 131, opacity: 0.3 },
   { src: filmstrip03,        alt: "Process photo",                                left: "calc(50% + 84px)",        top: 3526, width: 154,  height: 131, opacity: 0.3, objectPosition: "bottom" },
-  { src: cupLamps,           alt: "Cup and desk lamps on the counter",            left: "calc(8.33% + 55.33px)",   top: 5075, width: 980,  height: 560 },
 ];
 
 // ─── Masked photos — Figma clipped these to a smaller window than their source
@@ -155,6 +154,17 @@ const maskedPhotos: MaskedPhoto[] = [
     src: detailSmall, alt: "Detail of the roasting room hardware",
     left: "calc(83.33% + 53.33px)", top: 3991, width: 140, height: 140,
     frameLeft: -4.426, frameTop: -25.455, frameWidth: 149.606, frameHeight: 223.814,
+  },
+  {
+    // No crop here (unlike the two above) — just a straight -90° rotation,
+    // matching Figma's own IMG_0998 node. The source file is stored portrait
+    // (rotated on disk); rendering it in a plain landscape box with
+    // object-fit:cover (as this was originally, incorrectly, set up) crops
+    // it into a squeezed sideways sliver instead of the intended photo.
+    src: cupLamps, alt: "Guests seated past the entrance curtain",
+    left: "calc(8.33% + 55.33px)", top: 5075, width: 980, height: 560,
+    frameLeft: 0, frameTop: 0, frameWidth: 980, frameHeight: 560,
+    rotate: -90, boxWidth: 560, boxHeight: 980,
   },
 ];
 
