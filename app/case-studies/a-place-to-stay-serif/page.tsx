@@ -64,12 +64,12 @@ const fade = (show: boolean): React.CSSProperties => ({
   willChange: "opacity",
 });
 
-// ─── Body copy — right-hand column, same horizontal position as the nav (~col 7) ─
-const textLeft = "calc(50% + 52px)";
-const textWidth = 242;
+// ─── Body copy — aligned to the header paragraph's own text column: col7 +
+// the "01.2" label's rendered width (24px) + the grid's 20px column gap, minus
+// the 1.5vw grid inset this element's own wrapper (unlike the header) sits in ─
+const textLeft = "calc(49.25vw + 44px)";
 
 const paragraphs: { top: number; text: string }[] = [
-  { top: 13,   text: "In summer 2025, one of my friends asked me if I would design a small coffee roasting space for him. He had just started roasting coffee of his own and was looking for a place to set up his own little roastery.\n\nSince university, I had mostly been designing houses and spaces for people to live in, so designing a roasting space felt very new. But it didn't take long for me to get excited about the opportunity to help my friend - and soon it became my first commercial project." },
   { top: 1165, text: "The concept for Serif started with my friend's enjoyment of camping. The idea of curating the space as needed, the flexibility to change and adapt, and keeping only what is necessary became some of the starting points for the design. I was drawn to the idea that a camping setup is never completely fixed — you bring what you need, arrange things depending on the moment, and make the space your own. I wanted to bring some of that same feeling into Serif, creating a space that could evolve with the way Serif team work and spend their time there." },
   { top: 1729, text: "I have always been drawn to the quietness in Agnes Martin's work in particular. There is very little in her paintings, but the simplicity never feels empty. The space between the lines, the repetition, and the subtle imperfections all leave room for you to pause and look a little longer. I think that idea stayed with me while designing Serif. Keeping the space to only what was necessary was not about making it empty, but about leaving room for the work, the people, and the everyday moments to happen." },
   { top: 2090, text: "This led to the idea of modular cabinets on casters, allowing the pieces to be moved around and rearranged as needed. Rather than having everything fixed in place, the space can change as their needs change. For me, this flexibility also connects to the idea of timelessness — creating something that doesn't need to stay the same to remain useful, but can continue to adapt and be used in different ways over time." },
@@ -267,8 +267,9 @@ export default function APlaceToStaySerif() {
           <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1 }}>
             A Place to Stay — Serif
           </span>
-          <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw" }}>
-            A small coffee roasting space in Vancouver, designed around flexibility, quietness, and the idea of a space that can evolve over time.
+          <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw", whiteSpace: "pre-line" }}>
+            In summer 2025, one of my friends asked me if I would design a small coffee roasting space for him. He had just started roasting coffee of his own and was looking for a place to set up his own little roastery.
+            {"\n\n"}Since university, I had mostly been designing houses and spaces for people to live in, so designing a roasting space felt very new. But it didn't take long for me to get excited about the opportunity to help my friend - and soon it became my first commercial project.
           </p>
         </div>
       </div>
@@ -342,10 +343,12 @@ export default function APlaceToStaySerif() {
               position: "absolute",
               left: textLeft,
               top: p.top,
-              width: textWidth,
-              ...garamond,
-              fontSize: "11px",
-              lineHeight: 1.5,
+              maxWidth: "25vw",
+              paddingLeft: "4vw",
+              ...serif,
+              fontSize: "13px",
+              fontWeight: 600,
+              lineHeight: 1.1,
               color: "#231f20",
               whiteSpace: "pre-line",
             }}
