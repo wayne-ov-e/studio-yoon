@@ -193,13 +193,14 @@ export default function AYearMakingAHouseHome() {
         }}
       />
 
-      {/* ── Permanent project header — same position as homepage dropdown ── */}
+      {/* ── Permanent project header — grid-placed at cols 7–12, not
+          left:col7/right:colGap (see the dropdown's comment below) ── */}
       <div
         style={{
           position: "absolute",
-          left: col7,
+          gridColumn: "7 / -1",
+          gridRow: 1,
           top: "2.5vh",
-          right: colGap,
           paddingTop: "83px",
           zIndex: 5,
           opacity: showMenu ? 0 : 1,
@@ -226,13 +227,16 @@ export default function AYearMakingAHouseHome() {
         </div>
       </div>
 
-      {/* ── Case Studies dropdown — same as homepage ── */}
+      {/* ── Case Studies dropdown — grid-placed at cols 7–12 (not
+          left:col7/right:colGap, a hand-computed vw approximation of the
+          grid's real column-7 line that drifts a few px from nav's actual
+          gridColumn:"7/10" placement at some viewport widths) ── */}
       <div
         style={{
           position: "absolute",
-          left: col7,
+          gridColumn: "7 / -1",
+          gridRow: 1,
           top: "2.5vh",
-          right: colGap,
           paddingTop: "83px",
           zIndex: 10,
           ...fade(showMenu),

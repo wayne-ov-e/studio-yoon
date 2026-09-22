@@ -188,13 +188,17 @@ export default function Home() {
         </Link>
       </nav>
 
-      {/* ── Project list — absolute, anchored to col 7 ── */}
+      {/* ── Project list — grid-placed at cols 7–12 (not left:col7/right:colGap
+          — those are a hand-computed vw approximation of the grid's real
+          column-7 line, which drifts a few px from nav's actual gridColumn:
+          "7/10" placement at some viewport widths; gridColumn ties it to the
+          same real grid computation nav uses, so they always match exactly) ── */}
       <div
         style={{
           position: "absolute",
-          left: col7,
+          gridColumn: "7 / -1",
+          gridRow: 1,
           top: "2.5vh",
-          right: colGap,
           paddingTop: "83px",
           zIndex: 10,
           ...fade(showMenu),
