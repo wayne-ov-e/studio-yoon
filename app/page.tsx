@@ -13,6 +13,7 @@ import houseHomeStrip1 from "@/public/images/a-year-making-a-house-home/detail-0
 import houseHomeStrip2 from "@/public/images/a-year-making-a-house-home/detail-10.jpg";
 import serifStrip1 from "@/public/images/a-place-to-stay-serif/shelf-corner.jpg";
 import serifStrip2 from "@/public/images/a-place-to-stay-serif/fig-dieter-rams.jpg";
+import { usePageEnter } from "@/components/reveal";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -72,6 +73,7 @@ const fade = (show: boolean): React.CSSProperties => ({
 
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function Home() {
+  const entered = usePageEnter();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -103,6 +105,8 @@ export default function Home() {
         columnGap: colGap,
         padding: `0 ${colGap}`,
         alignContent: "start",
+        opacity: entered ? 1 : 0,
+        transition: "opacity 1s ease",
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}

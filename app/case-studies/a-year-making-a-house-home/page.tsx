@@ -21,6 +21,7 @@ import detail11 from "@/public/images/a-year-making-a-house-home/detail-11.jpg";
 import detail12 from "@/public/images/a-year-making-a-house-home/detail-12.jpg";
 import detail13 from "@/public/images/a-year-making-a-house-home/detail-13.jpg";
 import detail14 from "@/public/images/a-year-making-a-house-home/detail-14.jpg";
+import { Reveal, usePageEnter } from "@/components/reveal";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -102,6 +103,7 @@ const photos: { src: StaticImageData; alt: string; left: string; top: number; wi
 ];
 
 export default function AYearMakingAHouseHome() {
+  const entered = usePageEnter();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -129,6 +131,8 @@ export default function AYearMakingAHouseHome() {
         padding: `0 ${colGap}`,
         alignContent: "start",
         position: "relative",
+        opacity: entered ? 1 : 0,
+        transition: "opacity 1s ease",
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
@@ -271,8 +275,9 @@ export default function AYearMakingAHouseHome() {
         }}
       >
         {paragraphs.map((p, i) => (
-          <p
+          <Reveal
             key={i}
+            as="p"
             style={{
               position: "absolute",
               left: textLeft,
@@ -288,10 +293,11 @@ export default function AYearMakingAHouseHome() {
             }}
           >
             {p.text}
-          </p>
+          </Reveal>
         ))}
 
-        <p
+        <Reveal
+          as="p"
           style={{
             position: "absolute",
             left: textLeft,
@@ -303,9 +309,9 @@ export default function AYearMakingAHouseHome() {
           }}
         >
           Epilogue.
-        </p>
+        </Reveal>
 
-        <div
+        <Reveal
           style={{
             position: "absolute",
             left: heroLeft,
@@ -323,11 +329,12 @@ export default function AYearMakingAHouseHome() {
             sizes="80vw"
             priority
           />
-        </div>
+        </Reveal>
 
         {photos.map((ph, i) => (
-          <div
+          <Reveal
             key={i}
+            delay={(i % 3) * 90}
             style={{
               position: "absolute",
               left: ph.left,
@@ -344,7 +351,7 @@ export default function AYearMakingAHouseHome() {
               style={{ objectFit: "cover" }}
               sizes="(max-width: 768px) 100vw, 70vw"
             />
-          </div>
+          </Reveal>
         ))}
       </div>
 

@@ -23,6 +23,7 @@ import filmstrip05 from "@/public/images/a-place-to-stay-serif/filmstrip-05.jpg"
 import filmstrip06 from "@/public/images/a-place-to-stay-serif/filmstrip-06.jpg";
 import floorPlan from "@/public/images/a-place-to-stay-serif/floor-plan.jpg";
 import cupLamps from "@/public/images/a-place-to-stay-serif/cup-lamps.jpg";
+import { Reveal, usePageEnter } from "@/components/reveal";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -148,6 +149,7 @@ const maskedPhotos: MaskedPhoto[] = [
 ];
 
 export default function APlaceToStaySerif() {
+  const entered = usePageEnter();
   const [showMenu, setShowMenu]             = useState(false);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
@@ -175,6 +177,8 @@ export default function APlaceToStaySerif() {
         padding: `0 ${colGap}`,
         alignContent: "start",
         position: "relative",
+        opacity: entered ? 1 : 0,
+        transition: "opacity 1s ease",
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
@@ -325,8 +329,9 @@ export default function APlaceToStaySerif() {
         ))}
 
         {paragraphs.map((p, i) => (
-          <p
+          <Reveal
             key={i}
+            as="p"
             style={{
               position: "absolute",
               left: textLeft,
@@ -340,7 +345,7 @@ export default function APlaceToStaySerif() {
             }}
           >
             {p.text}
-          </p>
+          </Reveal>
         ))}
 
         {sectionLabels.map((s) => (
@@ -383,13 +388,14 @@ export default function APlaceToStaySerif() {
 
         {/* Background panel behind the floor plan */}
         <div style={{ position: "absolute", left: "calc(8.33% + 55.33px)", top: 4351, width: 980, height: 494, background: "#e6e3dd" }} />
-        <div style={{ position: "absolute", left: "calc(16.67% + 67.67px)", top: 4351, width: 761, height: 492, mixBlendMode: "multiply" }}>
+        <Reveal style={{ position: "absolute", left: "calc(16.67% + 67.67px)", top: 4351, width: 761, height: 492, mixBlendMode: "multiply" }}>
           <Image src={floorPlan} alt="Floor plan of the Serif roastery" fill style={{ objectFit: "cover" }} sizes="60vw" />
-        </div>
+        </Reveal>
 
         {photos.map((ph, i) => (
-          <div
+          <Reveal
             key={i}
+            delay={(i % 3) * 90}
             style={{
               position: "absolute",
               left: ph.left,
@@ -407,11 +413,11 @@ export default function APlaceToStaySerif() {
               style={{ objectFit: "cover", objectPosition: ph.objectPosition ?? "center" }}
               sizes="(max-width: 768px) 100vw, 70vw"
             />
-          </div>
+          </Reveal>
         ))}
 
         {maskedPhotos.map((m, i) => (
-          <div key={i} style={{ position: "absolute", left: m.left, top: m.top, width: m.width, height: m.height, overflow: "hidden" }}>
+          <Reveal key={i} style={{ position: "absolute", left: m.left, top: m.top, width: m.width, height: m.height, overflow: "hidden" }}>
             <div
               style={{
                 position: "absolute",
@@ -430,7 +436,7 @@ export default function APlaceToStaySerif() {
                 <Image src={m.src} alt={m.alt} fill style={{ objectFit: "cover" }} sizes="40vw" />
               )}
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
