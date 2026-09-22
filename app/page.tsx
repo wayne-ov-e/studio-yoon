@@ -181,7 +181,7 @@ export default function Home() {
           <img
             src={yoonLogo.src}
             alt="YOON"
-            style={{ height: 17.6, width: 68, objectFit: "contain", objectPosition: "left bottom", display: "block" }}
+            style={{ height: 17.6, width: 103.5, objectFit: "contain", objectPosition: "left bottom", display: "block" }}
           />
         </Link>
       </nav>
