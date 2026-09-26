@@ -492,7 +492,7 @@ export default function APlaceToStaySerif() {
           the header's title row at any viewport height, not just one tested
           size. Grid + alignItems:"baseline" per row so the 8.5px label and
           11px value share a real text baseline. ── */}
-      <div style={{ position: "absolute", left: 20, top: "2.5vh", zIndex: 4 }}>
+      <div style={{ position: "absolute", left: 20, top: "2.5vh", zIndex: 4, opacity: showMenu ? 0 : 1, transition: "opacity 0.55s ease", pointerEvents: showMenu ? "none" : "auto" }}>
         {meta.map((m) => (
           <div key={m.label} style={{ position: "absolute", left: 0, top: m.top, display: "grid", gridTemplateColumns: "72px 1fr", alignItems: "baseline", lineHeight: "normal" }}>
             <span style={{ gridColumn: 1, ...andale, fontSize: "8.5px", color: "#231f20", whiteSpace: "nowrap" }}>{m.label}</span>
@@ -554,6 +554,9 @@ export default function APlaceToStaySerif() {
           marginTop: "260px",
           minHeight: "6050px",
           paddingBottom: "10vh",
+          opacity: showMenu ? 0 : 1,
+          transition: "opacity 0.55s ease",
+          pointerEvents: showMenu ? "none" : "auto",
         }}
       >
 

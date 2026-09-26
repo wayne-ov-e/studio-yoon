@@ -405,6 +405,9 @@ export default function AYearMakingAHouseHome() {
           marginTop: "260px",
           minHeight: "7850px",
           paddingBottom: "10vh",
+          opacity: showMenu ? 0 : 1,
+          transition: "opacity 0.55s ease",
+          pointerEvents: showMenu ? "none" : "auto",
         }}
       >
         {paragraphs.map((p, i) => (
