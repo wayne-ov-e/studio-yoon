@@ -348,6 +348,7 @@ export default function Home() {
           left: 0,
           right: 0,
           bottom: "12vh",
+          zIndex: 10,
           display: "flex",
           gap: "24px",
           alignItems: "center",
@@ -358,7 +359,7 @@ export default function Home() {
           const pi = Math.floor(i / 2);
           const isFirstOfPair = i % 2 === 0;
           const isActive = hoveredProject === pi;
-          const projectOpacity = anyProjectHover ? (isActive ? 1 : 0.08) : 0.1;
+          const projectOpacity = anyProjectHover ? (isActive ? 1 : 0.3) : 0.1;
           return (
             <div
               key={i}
