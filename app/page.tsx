@@ -7,14 +7,9 @@ import Link from "next/link";
 // ─── Assets ──────────────────────────────────────────────────────────────────
 import yoonLogo from "@/public/images/yoon-logo.svg";
 import heroImg from "@/public/images/lamp.jpg";
-import lampImg from "@/public/images/lamp.jpg";
-import roomImg from "@/public/images/room-placeholder.svg";
-import houseHomeStrip1 from "@/public/images/a-year-making-a-house-home/detail-01.jpg";
-import houseHomeStrip2 from "@/public/images/a-year-making-a-house-home/detail-10.jpg";
-import serifStrip1 from "@/public/images/a-place-to-stay-serif/shelf-corner.jpg";
-import serifStrip2 from "@/public/images/a-place-to-stay-serif/fig-dieter-rams.jpg";
 import { usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
+import { CaseStudyStrip } from "@/components/case-study-strip";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -23,31 +18,19 @@ const projects = [
     title: "A Year Making a House, Home",
     desc: "A year-long renovation of a small townhouse into a home for two — and one dog named August.",
     href: "/case-studies/a-year-making-a-house-home",
-    images: [0, 1],
   },
   {
     num: "01.2",
     title: "A Place to Stay — Serif",
     desc: "A small coffee roasting space in Vancouver, designed around flexibility, quietness, and the idea of a space that can evolve over time.",
     href: "/case-studies/a-place-to-stay-serif",
-    images: [2, 3],
   },
   {
     num: "01.3",
     title: "Take Part In",
     desc: "An unusual interaction with the seemingly rigid and fragile material that composed the entire show.",
     href: "#",
-    images: [4, 5],
   },
-];
-
-const stripImages = [
-  { src: houseHomeStrip1, w: 93,  h: 131 },
-  { src: houseHomeStrip2, w: 93,  h: 110 },
-  { src: serifStrip1, w: 93,  h: 62  },
-  { src: serifStrip2, w: 85,  h: 86  },
-  { src: lampImg,  w: 93,  h: 113 },
-  { src: roomImg,  w: 85,  h: 91  },
 ];
 
 // ─── Grid ────────────────────────────────────────────────────────────────────
@@ -90,9 +73,6 @@ export default function Home() {
       setHoveredProject(null);
     }, 250);
   }, []);
-
-  const activeImages    = hoveredProject !== null ? projects[hoveredProject].images : [];
-  const anyProjectHover = hoveredProject !== null;
 
   // ─── Mobile: full-bleed hero + a tap-triggered full-screen menu, instead of
   // the desktop's hover-driven mega-dropdown (cols 7–12 of a 12-col grid,
@@ -339,57 +319,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* ── Image strip — grid cols 1–6, 12% above bottom ── */}
-      <div
-        style={{
-          position: "absolute",
-          gridColumn: "1 / 7",
-          gridRow: 1,
-          left: 0,
-          right: 0,
-          bottom: "12vh",
-          zIndex: 10,
-          display: "flex",
-          gap: "24px",
-          alignItems: "center",
-          ...fade(showMenu),
-        }}
-      >
-        {stripImages.map((img, i) => {
-          const pi = Math.floor(i / 2);
-          const isFirstOfPair = i % 2 === 0;
-          const isActive = hoveredProject === pi;
-          const projectOpacity = anyProjectHover ? (isActive ? 1 : 0.3) : 0.1;
-          return (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                rowGap: "8px",
-                opacity: projectOpacity,
-                transition: "opacity 0.35s ease",
-                flex: 1,
-                willChange: "opacity",
-                transform: "translateZ(0)",
-              }}
-            >
-              <div style={{ position: "relative", width: "100%", aspectRatio: `${img.w}/${img.h}`, overflow: "hidden" }}>
-                <Image
-                  src={img.src}
-                  alt=""
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, visibility: isFirstOfPair ? "visible" : "hidden", position: "relative", left: "6px" }}>
-                {projects[pi].num}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+      <CaseStudyStrip show={showMenu} hoveredProject={hoveredProject} />
 
       {/* ── Tagline — col 7, 3% above bottom ── */}
       <p

@@ -25,6 +25,7 @@ import floorPlan from "@/public/images/a-place-to-stay-serif/floor-plan.jpg";
 import cupLamps from "@/public/images/a-place-to-stay-serif/cup-lamps.jpg";
 import { Reveal, usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
+import { CaseStudyStrip } from "@/components/case-study-strip";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -541,6 +542,8 @@ export default function APlaceToStaySerif() {
           </div>
         ))}
       </div>
+
+      <CaseStudyStrip show={showMenu} hoveredProject={hoveredProject} />
 
       {/* ── Case study body — long-form photo essay, positioned to mirror the Figma layout ── */}
       <div

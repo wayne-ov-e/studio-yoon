@@ -23,6 +23,7 @@ import detail13 from "@/public/images/a-year-making-a-house-home/detail-13.jpg";
 import detail14 from "@/public/images/a-year-making-a-house-home/detail-14.jpg";
 import { Reveal, usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
+import { CaseStudyStrip } from "@/components/case-study-strip";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -392,6 +393,8 @@ export default function AYearMakingAHouseHome() {
           </div>
         ))}
       </div>
+
+      <CaseStudyStrip show={showMenu} hoveredProject={hoveredProject} />
 
       {/* ── Case study body — long-form photo essay, positioned to mirror the Figma layout ── */}
       <div
