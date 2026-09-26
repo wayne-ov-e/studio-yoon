@@ -32,7 +32,7 @@ html {
 body {
   background-color: #ececea;
   color: #231f20;
-  font-family: var(--font-times-now, 'Times New Roman', serif);
+  font-family: var(--font-eb-garamond, Garamond, Georgia, serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

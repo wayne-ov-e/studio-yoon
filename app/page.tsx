@@ -59,7 +59,7 @@ const colGap = "1.5vw";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
-const serif: React.CSSProperties = { fontFamily: "var(--font-times-now, 'Times New Roman', serif)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)" };
 const mono: React.CSSProperties  = { fontFamily: '"logic-monospace", var(--font-mono, monospace)' };
 
 const fade = (show: boolean): React.CSSProperties => ({

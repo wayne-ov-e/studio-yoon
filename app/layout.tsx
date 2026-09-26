@@ -5,7 +5,7 @@ import "./globals.css";
 
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-eb-garamond",
   display: "swap",
@@ -22,17 +22,6 @@ const spaceMono = localFont({
   display: "swap",
 });
 
-const timesNow = localFont({
-  src: [
-    { path: "../public/fonts/TimesNow-SemiLight.ttf",       weight: "300", style: "normal" },
-    { path: "../public/fonts/TimesNow-SemiLightItalic.ttf", weight: "300", style: "italic" },
-    { path: "../public/fonts/TimesNow-SemiBold.ttf",        weight: "600", style: "normal" },
-    { path: "../public/fonts/TimesNow-SemiBoldItalic.ttf",  weight: "600", style: "italic" },
-  ],
-  variable: "--font-times-now",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "YOON — Interior Design Studio",
   description:
@@ -43,7 +32,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${spaceMono.variable} ${timesNow.variable} ${ebGaramond.variable}`}>
+    <html lang="en" className={`${spaceMono.variable} ${ebGaramond.variable}`}>
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/bsv3osj.css" />
       </head>
