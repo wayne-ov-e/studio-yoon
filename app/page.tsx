@@ -59,7 +59,7 @@ const colGap = "1.5vw";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
-const serif: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)", fontSize: "14px", fontWeight: 300, lineHeight: 1.2 };
 const mono: React.CSSProperties  = { fontFamily: '"logic-monospace", var(--font-mono, monospace)' };
 
 const fade = (show: boolean): React.CSSProperties => ({
@@ -162,7 +162,7 @@ export default function Home() {
         >
           <div style={{ marginBottom: "40px" }}>
             <span style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#767574" }}>01.</span>
-            <span style={{ ...serif, fontStyle: "italic", fontSize: "18px", fontWeight: 600, color: "#231f20", marginLeft: "12px" }}>
+            <span style={{ ...serif, fontStyle: "italic", color: "#231f20", marginLeft: "12px" }}>
               Case Studies
             </span>
             <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "24px" }}>
@@ -174,10 +174,10 @@ export default function Home() {
                   style={{ textDecoration: "none", display: "block" }}
                 >
                   <div style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>{p.num}</div>
-                  <div style={{ ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: "#231f20", marginTop: "4px" }}>
+                  <div style={{ ...serif, fontStyle: "italic", color: "#231f20", marginTop: "4px" }}>
                     {p.title}
                   </div>
-                  <p style={{ ...serif, fontSize: "13px", color: "#767574", lineHeight: 1.4, marginTop: "6px" }}>
+                  <p style={{ ...serif, color: "#767574", marginTop: "6px" }}>
                     {p.desc}
                   </p>
                 </Link>
@@ -186,11 +186,11 @@ export default function Home() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "18px", borderTop: "1px solid #ddd8cf", paddingTop: "24px" }}>
-            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>Research</a>
-            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>About</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, color: "#231f20", textDecoration: "none" }}>Research</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, color: "#231f20", textDecoration: "none" }}>About</a>
           </div>
 
-          <p style={{ ...serif, fontSize: "12px", fontWeight: 600, color: "#767574", lineHeight: 1.4, marginTop: "40px" }}>
+          <p style={{ ...serif, color: "#767574", marginTop: "40px" }}>
             An interior design studio passionate about transforming houses into homes through textural details.
           </p>
         </div>
@@ -268,18 +268,18 @@ export default function Home() {
         >
           <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
           <span
-            style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}
+            style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", transition: "color 0.2s ease", position: "relative", left: "-4px" }}
           >
             Case Studies
           </span>
         </div>
         <a href="#"
-          style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", lineHeight: 1, transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("research")}
           onMouseLeave={() => setHoveredNav(null)}
         >Research</a>
         <a href="#"
-          style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", lineHeight: 1, transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("about")}
           onMouseLeave={() => setHoveredNav(null)}
         >About</a>
@@ -329,10 +329,10 @@ export default function Home() {
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
             </span>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "13px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.title}
             </Link>
-            <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease" }}>
+            <p style={{ gridColumn: 2, gridRow: 2, ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease" }}>
               {p.desc}
             </p>
           </div>
@@ -398,10 +398,7 @@ export default function Home() {
           bottom: "3%",
           maxWidth: "19.7vw",
           ...serif,
-          fontSize: "12px",
-          fontWeight: 600,
           color: "#231f20",
-          lineHeight: 1.1,
           ...fade(showMenu),
         }}
       >

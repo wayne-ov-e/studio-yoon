@@ -53,9 +53,9 @@ const colGap = "1.5vw";
 const col7   = "50.75vw";
 
 // ─── Style tokens ─────────────────────────────────────────────────────────────
-const serif: React.CSSProperties    = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)" };
+const serif: React.CSSProperties    = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)", fontSize: "14px", fontWeight: 300, lineHeight: 1.2 };
 const mono: React.CSSProperties     = { fontFamily: '"logic-monospace", var(--font-mono, monospace)' };
-const garamond: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)" };
+const garamond: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)", fontSize: "14px", fontWeight: 300, lineHeight: 1.2 };
 const andale: React.CSSProperties   = { fontFamily: '"Andale Mono", AndaleMono, ui-monospace, monospace' };
 
 const fade = (show: boolean): React.CSSProperties => ({
@@ -280,27 +280,27 @@ export default function APlaceToStaySerif() {
         <div style={{ position: "fixed", inset: 0, zIndex: 15, background: "#f7f4ef", padding: "80px 6vw 40px", overflowY: "auto", ...fade(showMenu) }}>
           <div style={{ marginBottom: "40px" }}>
             <span style={{ ...mono, fontSize: "11px", fontWeight: 700, color: "#767574" }}>01.</span>
-            <span style={{ ...serif, fontStyle: "italic", fontSize: "18px", fontWeight: 600, color: "#231f20", marginLeft: "12px" }}>Case Studies</span>
+            <span style={{ ...serif, fontStyle: "italic", color: "#231f20", marginLeft: "12px" }}>Case Studies</span>
             <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "24px" }}>
               {projects.map((p) => (
                 <Link key={p.num} href={p.href} onClick={() => setShowMenu(false)} style={{ textDecoration: "none", display: "block" }}>
                   <div style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>{p.num}</div>
-                  <div style={{ ...serif, fontStyle: "italic", fontSize: "16px", fontWeight: 600, color: "#231f20", marginTop: "4px" }}>{p.title}</div>
-                  <p style={{ ...serif, fontSize: "13px", color: "#767574", lineHeight: 1.4, marginTop: "6px" }}>{p.desc}</p>
+                  <div style={{ ...serif, fontStyle: "italic", color: "#231f20", marginTop: "4px" }}>{p.title}</div>
+                  <p style={{ ...serif, color: "#767574", marginTop: "6px" }}>{p.desc}</p>
                 </Link>
               ))}
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "18px", borderTop: "1px solid #ddd8cf", paddingTop: "24px" }}>
-            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>Research</a>
-            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, fontSize: "16px", fontWeight: 600, color: "#231f20", textDecoration: "none" }}>About</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, color: "#231f20", textDecoration: "none" }}>Research</a>
+            <a href="#" onClick={() => setShowMenu(false)} style={{ ...serif, color: "#231f20", textDecoration: "none" }}>About</a>
           </div>
         </div>
 
         {/* Header */}
         <div style={{ padding: "90px 6vw 4px" }}>
           <span style={{ ...mono, fontSize: "10px", fontWeight: 700, color: "#767574" }}>01.2</span>
-          <div style={{ ...serif, fontStyle: "italic", fontSize: "20px", fontWeight: 600, color: "#231f20", marginTop: "6px" }}>
+          <div style={{ ...serif, fontStyle: "italic", color: "#231f20", marginTop: "6px" }}>
             A Place to Stay — Serif
           </div>
         </div>
@@ -310,13 +310,13 @@ export default function APlaceToStaySerif() {
           {meta.map((m) => (
             <div key={m.label} style={{ display: "grid", gridTemplateColumns: "84px 1fr", alignItems: "baseline" }}>
               <span style={{ ...andale, fontSize: "9px", color: "#767574", whiteSpace: "nowrap" }}>{m.label}</span>
-              <span style={{ ...garamond, fontSize: "12px", color: "#231f20" }}>{m.value}</span>
+              <span style={{ ...garamond, color: "#231f20" }}>{m.value}</span>
             </div>
           ))}
         </div>
 
         {/* Dek */}
-        <p style={{ ...serif, fontSize: "15px", fontWeight: 500, lineHeight: 1.6, color: "#231f20", whiteSpace: "pre-line", padding: "20px 6vw 0" }}>
+        <p style={{ ...serif, color: "#231f20", whiteSpace: "pre-line", padding: "20px 6vw 0" }}>
           In summer 2025, one of my friends asked me if I would design a small coffee roasting space for him. He had just started roasting coffee of his own and was looking for a place to set up his own little roastery.
           {"\n\n"}Since university, I had mostly been designing houses and spaces for people to live in, so designing a roasting space felt very new. But it didn&apos;t take long for me to get excited about the opportunity to help my friend - and soon it became my first commercial project.
         </p>
@@ -333,7 +333,7 @@ export default function APlaceToStaySerif() {
             }
             if (item.type === "text") {
               return (
-                <Reveal key={i} as="p" style={{ ...serif, fontSize: "15px", fontWeight: 500, lineHeight: 1.6, color: "#231f20", whiteSpace: "pre-line" }}>
+                <Reveal key={i} as="p" style={{ ...serif, color: "#231f20", whiteSpace: "pre-line" }}>
                   {item.text}
                 </Reveal>
               );
@@ -415,17 +415,17 @@ export default function APlaceToStaySerif() {
           onMouseLeave={() => { scheduleHide(); setHoveredNav(null); }}
         >
           <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
-          <span style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", lineHeight: 1, transition: "color 0.2s ease", position: "relative", left: "-4px" }}>
+          <span style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", transition: "color 0.2s ease", position: "relative", left: "-4px" }}>
             Case Studies
           </span>
         </div>
         <a href="#"
-          style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", lineHeight: 1, transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("research")}
           onMouseLeave={() => setHoveredNav(null)}
         >Research</a>
         <a href="#"
-          style={{ ...serif, fontSize: "13px", fontWeight: 600, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", lineHeight: 1, transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("about")}
           onMouseLeave={() => setHoveredNav(null)}
         >About</a>
@@ -475,10 +475,10 @@ export default function APlaceToStaySerif() {
           <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "end", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, position: "relative", left: "6px", top: "-2px" }}>
             01.2
           </span>
-          <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1 }}>
+          <span style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", color: "#231f20" }}>
             A Place to Stay — Serif
           </span>
-          <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: "#231f20", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw", whiteSpace: "pre-line" }}>
+          <p style={{ gridColumn: 2, gridRow: 2, ...serif, color: "#231f20", paddingLeft: "4vw", maxWidth: "25vw", whiteSpace: "pre-line" }}>
             In summer 2025, one of my friends asked me if I would design a small coffee roasting space for him. He had just started roasting coffee of his own and was looking for a place to set up his own little roastery.
             {"\n\n"}Since university, I had mostly been designing houses and spaces for people to live in, so designing a roasting space felt very new. But it didn't take long for me to get excited about the opportunity to help my friend - and soon it became my first commercial project.
           </p>
@@ -495,7 +495,7 @@ export default function APlaceToStaySerif() {
         {meta.map((m) => (
           <div key={m.label} style={{ position: "absolute", left: 0, top: m.top, display: "grid", gridTemplateColumns: "72px 1fr", alignItems: "baseline", lineHeight: "normal" }}>
             <span style={{ gridColumn: 1, ...andale, fontSize: "8.5px", color: "#231f20", whiteSpace: "nowrap" }}>{m.label}</span>
-            <span style={{ gridColumn: 2, ...garamond, fontSize: "11px", color: "#231f20", whiteSpace: "nowrap" }}>{m.value}</span>
+            <span style={{ gridColumn: 2, ...garamond, color: "#231f20", whiteSpace: "nowrap" }}>{m.value}</span>
           </div>
         ))}
       </div>
@@ -532,10 +532,10 @@ export default function APlaceToStaySerif() {
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
             </span>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", fontSize: "13px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.title}
             </Link>
-            <p style={{ gridColumn: 2, gridRow: 2, ...serif, fontSize: "13px", fontWeight: 600, color: hoveredProject === i ? "#231f20" : "#767574", lineHeight: 1.1, paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease" }}>
+            <p style={{ gridColumn: 2, gridRow: 2, ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease" }}>
               {p.desc}
             </p>
           </div>
@@ -565,9 +565,6 @@ export default function APlaceToStaySerif() {
               maxWidth: "25vw",
               paddingLeft: "4vw",
               ...serif,
-              fontSize: "13px",
-              fontWeight: 600,
-              lineHeight: 1.1,
               color: "#231f20",
               whiteSpace: "pre-line",
             }}

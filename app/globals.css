@@ -33,6 +33,9 @@ body {
   background-color: #ececea;
   color: #231f20;
   font-family: var(--font-eb-garamond, Garamond, Georgia, serif);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
