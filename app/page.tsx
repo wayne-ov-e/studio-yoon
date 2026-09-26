@@ -329,12 +329,12 @@ export default function Home() {
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
             </span>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.title}
             </Link>
-            <p style={{ gridColumn: 2, gridRow: 2, ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease" }}>
+            <Link href={p.href} style={{ gridColumn: 2, gridRow: 2, display: "block", ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.desc}
-            </p>
+            </Link>
           </div>
         ))}
       </div>
