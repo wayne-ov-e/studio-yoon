@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
 import yoonLogo from "@/public/images/yoon-logo.svg";
-import heroImg from "@/public/images/lamp.jpg";
 import { usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
 import { CaseStudyStrip } from "@/components/case-study-strip";
+import { HomeSlideshow } from "@/components/home-slideshow";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -44,6 +43,7 @@ const col7   = "50.75vw";
 // ─── Style tokens ─────────────────────────────────────────────────────────────
 const serif: React.CSSProperties = { fontFamily: "var(--font-eb-garamond, Garamond, Georgia, serif)", fontSize: "14px", fontWeight: 300, lineHeight: 1.2 };
 const mono: React.CSSProperties  = { fontFamily: '"logic-monospace", var(--font-mono, monospace)' };
+const menu: React.CSSProperties  = { ...mono, fontSize: "10px", fontWeight: 400, lineHeight: 1.2 };
 
 const fade = (show: boolean): React.CSSProperties => ({
   opacity: show ? 1 : 0,
@@ -91,7 +91,7 @@ export default function Home() {
       >
         {/* Hero */}
         <div style={{ position: "absolute", top: "1.5vh", bottom: "1.5vh", left: "4vw", right: "4vw", ...fade(!showMenu) }}>
-          <Image src={heroImg} alt="" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
+          <HomeSlideshow />
         </div>
 
         {/* Nav bar */}
@@ -208,22 +208,15 @@ export default function Home() {
         }}
       />
 
-      {/* ── Hero: absolute, behind everything ── */}
+      {/* ── Hero: full-bleed photo slideshow, behind everything ── */}
       <div
         style={{
           position: "absolute",
-          top: "0.5vh", bottom: "0.5vh",
-          left: "5vw",  right: "5vw",
+          inset: 0,
           ...fade(!showMenu),
         }}
       >
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          style={{ objectFit: "cover", objectPosition: "center" }}
-          priority
-        />
+        <HomeSlideshow />
       </div>
 
       {/* ── Nav — single wrapper spanning cols 7–10 ── */}
@@ -248,18 +241,18 @@ export default function Home() {
         >
           <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: "#231f20", lineHeight: 1, minWidth: 30, opacity: showMenu ? 1 : 0, transition: "opacity 0.2s ease", position: "relative", left: "6px" }}>01.</span>
           <span
-            style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", transition: "color 0.2s ease", position: "relative", left: "-4px" }}
+            style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...menu, color: hoveredNav !== null && hoveredNav !== "case-studies" ? "#767574" : "#231f20", cursor: "default", userSelect: "none", transition: "color 0.2s ease", position: "relative", left: "-4px" }}
           >
             Case Studies
           </span>
         </div>
         <a href="#"
-          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...menu, color: hoveredNav !== null && hoveredNav !== "research" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("research")}
           onMouseLeave={() => setHoveredNav(null)}
         >Research</a>
         <a href="#"
-          style={{ ...serif, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
+          style={{ ...menu, color: hoveredNav !== null && hoveredNav !== "about" ? "#767574" : "#231f20", marginRight: "50px", transition: "color 0.2s ease", position: "relative", top: "4px", left: "-4px" }}
           onMouseEnter={() => setHoveredNav("about")}
           onMouseLeave={() => setHoveredNav(null)}
         >About</a>
