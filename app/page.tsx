@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
 import yoonLogo from "@/public/images/yoon-logo.svg";
@@ -9,6 +10,7 @@ import { usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
 import { CaseStudyStrip } from "@/components/case-study-strip";
 import { HomeSlideshow } from "@/components/home-slideshow";
+import { flyToHeader, FLY_DELAY_MS, FLY_DURATION_MS } from "@/components/fly-to-header";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -62,17 +64,43 @@ export default function Home() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const router = useRouter();
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [leaving, setLeaving]       = useState<number | null>(null);
+  const [fadingOut, setFadingOut]   = useState(false);
+  const leavingRef = useRef(false);
 
   const cancelHide = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
   }, []);
 
   const scheduleHide = useCallback(() => {
+    if (leavingRef.current) return;
     hideTimer.current = setTimeout(() => {
       setShowMenu(false);
       setHoveredProject(null);
     }, 250);
   }, []);
+
+  // ─── Dropdown → case study transition: the other rows fade, the clicked
+  // row slides up onto the first row's spot (where the case study page's
+  // header sits), the page fades out, and the destination fades in beneath
+  // the row — see flyToHeader ──────────────────────────────────────────────
+  const openCaseStudy = (i: number) => (e: React.MouseEvent) => {
+    const { href } = projects[i];
+    const row = rowRefs.current[i];
+    const target = rowRefs.current[0];
+    if (href === "#" || !row || !target || leavingRef.current) return;
+    e.preventDefault();
+    leavingRef.current = true;
+    cancelHide();
+    router.prefetch(href);
+    setLeaving(i);
+    const release = flyToHeader(row, target);
+    const slideEnd = FLY_DELAY_MS + FLY_DURATION_MS;
+    setTimeout(() => setFadingOut(true), slideEnd);
+    setTimeout(() => { router.push(href); release(); }, slideEnd + 350);
+  };
 
   // ─── Mobile: full-bleed hero + a tap-triggered full-screen menu, instead of
   // the desktop's hover-driven mega-dropdown (cols 7–12 of a 12-col grid,
@@ -190,8 +218,8 @@ export default function Home() {
         columnGap: colGap,
         padding: `0 ${colGap}`,
         alignContent: "start",
-        opacity: entered ? 1 : 0,
-        transition: "opacity 1s ease",
+        opacity: entered && !fadingOut ? 1 : 0,
+        transition: fadingOut ? "opacity 0.35s ease" : "opacity 1s ease",
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
@@ -287,6 +315,7 @@ export default function Home() {
         {projects.map((p, i) => (
           <div
             key={p.num}
+            ref={(el) => { rowRefs.current[i] = el; }}
             style={{
               // Internal grid mirrors the main grid:
               // col 1 = colW (= main col 7 width) → num aligns with "01."
@@ -296,23 +325,25 @@ export default function Home() {
               columnGap: "20px",
               marginBottom: "12px",
               cursor: "default",
+              opacity: leaving !== null && leaving !== i ? 0 : 1,
+              transition: "opacity 0.2s ease",
             }}
-            onMouseEnter={() => { cancelHide(); setHoveredProject(i); }}
+            onMouseEnter={() => { if (!leavingRef.current) { cancelHide(); setHoveredProject(i); } }}
           >
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
             </span>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} onClick={openCaseStudy(i)} style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.title}
             </Link>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 2, display: "block", ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} onClick={openCaseStudy(i)} style={{ gridColumn: 2, gridRow: 2, display: "block", ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.desc}
             </Link>
           </div>
         ))}
       </div>
 
-      <CaseStudyStrip show={showMenu} hoveredProject={hoveredProject} />
+      <CaseStudyStrip show={showMenu && leaving === null} hoveredProject={hoveredProject} />
 
       {/* ── Tagline — col 7, 3% above bottom ── */}
       <p
