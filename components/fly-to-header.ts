@@ -70,6 +70,7 @@ export function flyToHeader(rowEl: HTMLElement, targetEl: HTMLElement, extraY = 
 
   // Call once navigation has been kicked off
   return function release() {
+    rowEl.style.visibility = ""; // only matters when staying on the same page
     setTimeout(() => snapToDestination(ghost), SNAP_AFTER_NAV_MS);
     setTimeout(() => {
       ghost
