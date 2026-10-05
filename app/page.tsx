@@ -324,11 +324,14 @@ export default function Home() {
               gridTemplateColumns: "auto 1fr",
               columnGap: "20px",
               marginBottom: "12px",
-              cursor: "default",
+              cursor: p.href === "#" ? "default" : "pointer",
               opacity: leaving !== null && leaving !== i ? 0 : 1,
               transition: "opacity 0.2s ease",
             }}
             onMouseEnter={() => { if (!leavingRef.current) { cancelHide(); setHoveredProject(i); } }}
+            // Whole row is clickable, including the number (the Links below
+            // also handle it themselves, before Next's own Link navigation)
+            onClick={openCaseStudy(i)}
           >
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
