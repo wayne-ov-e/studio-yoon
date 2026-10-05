@@ -29,6 +29,9 @@ function snapToDestination(ghost: HTMLElement) {
     let best: { dx: number; dy: number } | null = null;
     for (const cand of Array.from(document.querySelectorAll<HTMLElement>("main span, main a"))) {
       if (cand.textContent?.trim() !== text) continue;
+      // Skip the destination's own (hidden, pointer-events:none) dropdown,
+      // whose first row sits exactly where the clone lands
+      if (getComputedStyle(cand).pointerEvents === "none") continue;
       const c = cand.getBoundingClientRect();
       const dx = c.left - r.left;
       const dy = c.bottom - r.bottom;
@@ -41,7 +44,9 @@ function snapToDestination(ghost: HTMLElement) {
   }
 }
 
-export function flyToHeader(rowEl: HTMLElement, targetEl: HTMLElement) {
+// `extraY` shifts the landing spot, e.g. by the current scroll when the
+// destination will open scrolled to the top
+export function flyToHeader(rowEl: HTMLElement, targetEl: HTMLElement, extraY = 0) {
   const from = rowEl.getBoundingClientRect();
   const to = targetEl.getBoundingClientRect();
 
@@ -59,7 +64,7 @@ export function flyToHeader(rowEl: HTMLElement, targetEl: HTMLElement) {
   rowEl.style.visibility = "hidden";
 
   ghost.animate(
-    [{ transform: "translateY(0)" }, { transform: `translateY(${to.top - from.top}px)` }],
+    [{ transform: "translateY(0)" }, { transform: `translateY(${to.top + extraY - from.top}px)` }],
     { duration: FLY_DURATION_MS, delay: FLY_DELAY_MS, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" },
   );
 

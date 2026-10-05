@@ -24,6 +24,7 @@ import detail14 from "@/public/images/a-year-making-a-house-home/detail-14.jpg";
 import { Reveal, usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
 import { CaseStudyStrip } from "@/components/case-study-strip";
+import { useCaseStudyTransition } from "@/components/use-case-study-transition";
 
 // ─── Data (mirrors homepage) ──────────────────────────────────────────────────
 const projects = [
@@ -148,17 +149,22 @@ export default function AYearMakingAHouseHome() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { rowRefs, leavingRef, leaving, openCaseStudy, pageFade, rowStyle } = useCaseStudyTransition(projects, {
+    hideTimer,
+    onSamePage: () => { setShowMenu(false); setHoveredProject(null); },
+  });
 
   const cancelHide = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
   }, []);
 
   const scheduleHide = useCallback(() => {
+    if (leavingRef.current) return;
     hideTimer.current = setTimeout(() => {
       setShowMenu(false);
       setHoveredProject(null);
     }, 250);
-  }, []);
+  }, [leavingRef]);
 
   if (isMobile) {
     return (
@@ -257,8 +263,7 @@ export default function AYearMakingAHouseHome() {
         padding: `0 ${colGap}`,
         alignContent: "start",
         position: "relative",
-        opacity: entered ? 1 : 0,
-        transition: "opacity 1s ease",
+        ...pageFade(entered),
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
@@ -373,29 +378,33 @@ export default function AYearMakingAHouseHome() {
         {projects.map((p, i) => (
           <div
             key={p.num}
+            ref={(el) => { rowRefs.current[i] = el; }}
             style={{
               display: "grid",
               gridTemplateColumns: "auto 1fr",
               columnGap: "20px",
               marginBottom: "12px",
-              cursor: "default",
+              ...rowStyle(i),
             }}
-            onMouseEnter={() => { cancelHide(); setHoveredProject(i); }}
+            onMouseEnter={() => { if (!leavingRef.current) { cancelHide(); setHoveredProject(i); } }}
+            // Whole row is clickable, including the number (the Links below
+            // also handle it themselves, before Next's own Link navigation)
+            onClick={openCaseStudy(i)}
           >
             <span style={{ gridColumn: 1, gridRow: 1, alignSelf: "baseline", ...mono, fontSize: "10px", fontWeight: 700, color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", position: "relative", left: "6px" }}>
               {p.num}
             </span>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} onClick={openCaseStudy(i)} style={{ gridColumn: 2, gridRow: 1, alignSelf: "baseline", ...serif, fontStyle: "italic", color: hoveredProject === i ? "#231f20" : "#767574", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.title}
             </Link>
-            <Link href={p.href} style={{ gridColumn: 2, gridRow: 2, display: "block", ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease", textDecoration: "none" }}>
+            <Link href={p.href} onClick={openCaseStudy(i)} style={{ gridColumn: 2, gridRow: 2, display: "block", ...serif, color: hoveredProject === i ? "#231f20" : "#767574", paddingLeft: "4vw", maxWidth: "25vw", transition: "color 0.2s ease", textDecoration: "none" }}>
               {p.desc}
             </Link>
           </div>
         ))}
       </div>
 
-      <CaseStudyStrip show={showMenu} hoveredProject={hoveredProject} />
+      <CaseStudyStrip show={showMenu && leaving === null} hoveredProject={hoveredProject} />
 
       {/* ── Case study body — long-form photo essay, positioned to mirror the Figma layout ── */}
       <div

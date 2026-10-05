@@ -2,7 +2,6 @@
 
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 // ─── Assets ──────────────────────────────────────────────────────────────────
 import yoonLogo from "@/public/images/yoon-logo.svg";
@@ -10,7 +9,7 @@ import { usePageEnter } from "@/components/reveal";
 import { useIsMobile } from "@/components/use-is-mobile";
 import { CaseStudyStrip } from "@/components/case-study-strip";
 import { HomeSlideshow } from "@/components/home-slideshow";
-import { flyToHeader, FLY_DELAY_MS, FLY_DURATION_MS } from "@/components/fly-to-header";
+import { useCaseStudyTransition } from "@/components/use-case-study-transition";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 const projects = [
@@ -64,11 +63,10 @@ export default function Home() {
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [hoveredNav, setHoveredNav]         = useState<string | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const router = useRouter();
-  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [leaving, setLeaving]       = useState<number | null>(null);
-  const [fadingOut, setFadingOut]   = useState(false);
-  const leavingRef = useRef(false);
+  const { rowRefs, leavingRef, leaving, openCaseStudy, pageFade, rowStyle } = useCaseStudyTransition(projects, {
+    hideTimer,
+    onSamePage: () => { setShowMenu(false); setHoveredProject(null); },
+  });
 
   const cancelHide = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
@@ -80,27 +78,7 @@ export default function Home() {
       setShowMenu(false);
       setHoveredProject(null);
     }, 250);
-  }, []);
-
-  // ─── Dropdown → case study transition: the other rows fade, the clicked
-  // row slides up onto the first row's spot (where the case study page's
-  // header sits), the page fades out, and the destination fades in beneath
-  // the row — see flyToHeader ──────────────────────────────────────────────
-  const openCaseStudy = (i: number) => (e: React.MouseEvent) => {
-    const { href } = projects[i];
-    const row = rowRefs.current[i];
-    const target = rowRefs.current[0];
-    if (href === "#" || !row || !target || leavingRef.current) return;
-    e.preventDefault();
-    leavingRef.current = true;
-    cancelHide();
-    router.prefetch(href);
-    setLeaving(i);
-    const release = flyToHeader(row, target);
-    const slideEnd = FLY_DELAY_MS + FLY_DURATION_MS;
-    setTimeout(() => setFadingOut(true), slideEnd);
-    setTimeout(() => { router.push(href); release(); }, slideEnd + 350);
-  };
+  }, [leavingRef]);
 
   // ─── Mobile: full-bleed hero + a tap-triggered full-screen menu, instead of
   // the desktop's hover-driven mega-dropdown (cols 7–12 of a 12-col grid,
@@ -218,8 +196,7 @@ export default function Home() {
         columnGap: colGap,
         padding: `0 ${colGap}`,
         alignContent: "start",
-        opacity: entered && !fadingOut ? 1 : 0,
-        transition: fadingOut ? "opacity 0.35s ease" : "opacity 1s ease",
+        ...pageFade(entered),
       }}
       onMouseEnter={cancelHide}
       onMouseLeave={scheduleHide}
@@ -324,9 +301,7 @@ export default function Home() {
               gridTemplateColumns: "auto 1fr",
               columnGap: "20px",
               marginBottom: "12px",
-              cursor: p.href === "#" ? "default" : "pointer",
-              opacity: leaving !== null && leaving !== i ? 0 : 1,
-              transition: "opacity 0.2s ease",
+              ...rowStyle(i),
             }}
             onMouseEnter={() => { if (!leavingRef.current) { cancelHide(); setHoveredProject(i); } }}
             // Whole row is clickable, including the number (the Links below
